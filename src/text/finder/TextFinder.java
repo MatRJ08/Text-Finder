@@ -6,8 +6,12 @@
 package text.finder;
 
 import javafx.application.Application;
+import static javafx.application.ConditionalFeature.FXML;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -18,27 +22,20 @@ import javafx.stage.Stage;
  * @author Keons
  */
 public class TextFinder extends Application {
-    
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+    public void start(Stage primaryStage) {      
+        try{
+        FXMLLoader loadLoadingWindow = new FXMLLoader();
+        loadLoadingWindow.setLocation(getClass().getResource("Grafica.fxml"));
+        Parent root = loadLoadingWindow.load();
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
+        Scene scene = new Scene(root, 800, 450);
+        primaryStage.setTitle("Text Finder");
         primaryStage.setScene(scene);
         primaryStage.show();
+        }catch(Exception e){
+            System.err.println("Error "+e);
+        }
     }
 
     /**
@@ -47,5 +44,6 @@ public class TextFinder extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
     
 }
