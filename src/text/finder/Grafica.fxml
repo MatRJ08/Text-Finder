@@ -5,30 +5,30 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.7842809364548495" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-min-width: 800; -fx-min-height: 450;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
+<SplitPane dividerPositions="0.7842809364548495" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="950.0" style="-fx-min-width: 800; -fx-min-height: 450;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Pane prefHeight="448.0" prefWidth="623.0" />
+            <Pane prefHeight="448.0" prefWidth="623.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="97.0">
          <children>
-            <SplitPane dividerPositions="0.7668161434977578" orientation="VERTICAL" prefHeight="448.0" prefWidth="169.0">
+            <SplitPane dividerPositions="0.8378839590443686" orientation="VERTICAL" prefHeight="448.0" prefWidth="169.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="167.0">
                      <children>
-                        <ScrollPane prefHeight="339.0" prefWidth="167.0">
+                        <ScrollPane prefHeight="339.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <content>
-                            <AnchorPane fx:id="filesPane" />
+                            <AnchorPane fx:id="filesPane" prefWidth="167.0" />
                           </content>
                         </ScrollPane>
                      </children></AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="199.0" prefWidth="167.0">
                      <children>
-                        <Label layoutX="48.0" layoutY="6.0" text="Files Librarie" />
-                        <Button fx:id="addFile" layoutX="8.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Add" textFill="#323232" />
-                        <Button fx:id="deleteFile" layoutX="94.0" layoutY="32.0" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-background-color: #EEE;" text="Delete" textFill="#323232" />
-                        <Button fx:id="parse" layoutX="54.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Parse" textFill="#323232" />
+                        <Label layoutX="67.0" layoutY="6.0" text="Files Librarie" />
+                        <Button fx:id="addFile" layoutX="5.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Add" textFill="#323232" />
+                        <Button fx:id="deleteFile" layoutX="135.0" layoutY="32.0" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-background-color: #EEE;" text="Delete" textFill="#323232" />
+                        <Button fx:id="parse" layoutX="70.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Parse" textFill="#323232" />
                      </children>
                   </AnchorPane>
               </items>

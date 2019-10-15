@@ -22,6 +22,7 @@ import javafx.stage.Stage;
  * @author Keons
  */
 public class TextFinder extends Application {
+    static Stage primaryStage;
     @Override
     public void start(Stage primaryStage) {      
         try{
@@ -29,15 +30,19 @@ public class TextFinder extends Application {
             loadLoadingWindow.setLocation(getClass().getResource("/text/finder/Grafica.fxml"));
             Parent root = loadLoadingWindow.load();
 
-            Scene scene = new Scene(root, 800, 450);
+            Scene scene = new Scene(root, 950, 590);
             primaryStage.setTitle("Text Finder");
             primaryStage.setScene(scene);
             primaryStage.show();
         }catch(Exception e){
             System.err.println("Error "+e);
         }
+        
     }
 
+    public static Stage getStage(){
+        return primaryStage;
+    }
     /**
      * @param args the command line arguments
      */
