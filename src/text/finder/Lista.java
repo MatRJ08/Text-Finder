@@ -40,6 +40,23 @@ public class Lista {
         this.size++;
 
     }
+    
+    public void insertAtLast(Object data){
+        if (head==null){
+            head = new Nodo(data);
+            head.setNext(null);
+        }
+        else{
+            Nodo temp = head;
+            Nodo newNodo = new Nodo(data);
+            newNodo.setNext(null);
+            while(temp.getNext() != null)
+            {
+                temp = temp.getNext(); 
+            }
+            temp.setNext(newNodo);
+        }
+    }
    
     /**
      * Función que elimina el primer nodo de una lista

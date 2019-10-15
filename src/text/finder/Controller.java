@@ -26,6 +26,8 @@ public class Controller implements Initializable  {
 
     Lista listaFiles = new Lista();
     private int filesNames = 0 ;
+    double x = 20;
+    double y = 10;
     @FXML
     Button addFile;
     @FXML
@@ -45,14 +47,13 @@ public class Controller implements Initializable  {
          */
         addFile.setOnAction((ActionEvent event) -> {
             event.consume();
-            listaFiles.insertFirst("Archivo1");
-            listaFiles.insertFirst("Archivo1");
-            listaFiles.insertFirst("Archivo1");
-            listaFiles.insertFirst("Archivo1");
+            listaFiles.insertAtLast("Archivo1");
+            listaFiles.insertAtLast("Archivo2");
+            listaFiles.insertAtLast("Archivo3");
+            listaFiles.insertAtLast("Archivo4");
             Nodo current = listaFiles.getHead();
             
-            double x = 20;
-            double y = 10;
+            
             
             while(current != null){
                 Label labelFile = new Label((String)current.getData());
