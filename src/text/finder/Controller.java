@@ -6,6 +6,7 @@
 package text.finder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ import javafx.stage.FileChooser;
  *
  * @author Keons
  * @see https://stackoverflow.com/questions/54035976/javafx-with-fxml-adding-action-events-for-buttons
- * @version 11M15A
+ * @version 11M15C
  */
 
 
@@ -48,6 +49,7 @@ public class Controller implements Initializable  {
          *  
          * @param event
          * @see https://docs.oracle.com/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#typeeffect
+         * @see http://lineadecodigo.com/java/como-ejecutar-un-comando-del-sistema-desde-java/
          */
         
         addFile.setOnAction((ActionEvent event) -> {
@@ -62,7 +64,12 @@ public class Controller implements Initializable  {
             data = dataAux[dataAux.length -1];
             listaFiles.insertAtLast(data);
             addElements();
-            
+            try {
+                String [] cmd = {"copy " + selectedFile.toString() + "  ..\\library "}; //Comando de apagado en windows
+                Runtime.getRuntime().exec(cmd);
+            } catch (IOException ioe) {
+                System.out.println (ioe);
+            }
         });
      
         
