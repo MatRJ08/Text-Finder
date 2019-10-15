@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane fx:controller="text.finder.Controller" dividerPositions="0.7842809364548495" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-min-width: 800; -fx-min-height: 450;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<SplitPane dividerPositions="0.7842809364548495" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-min-width: 800; -fx-min-height: 450;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="text.finder.Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -15,13 +15,13 @@
          <children>
             <SplitPane dividerPositions="0.7668161434977578" orientation="VERTICAL" prefHeight="448.0" prefWidth="169.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="167.0" />
+                <AnchorPane fx:id="filesPane" minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="167.0" />
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="199.0" prefWidth="167.0">
                      <children>
                         <Label layoutX="48.0" layoutY="6.0" text="Files Librarie" />
-                        <Button id="addFile" fx:id="addFile" layoutX="8.0" layoutY="32.0" mnemonicParsing="false" onAction="#sayHi" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Add" textFill="#323232" />
-                        <Button id="deleteFile" layoutX="94.0" layoutY="32.0" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-background-color: #EEE;" text="Delete" textFill="#323232" />
-                        <Button id="parse" layoutX="54.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Parse" textFill="#323232" />
+                        <Button fx:id="addFile" layoutX="8.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Add" textFill="#323232" />
+                        <Button fx:id="deleteFile" layoutX="94.0" layoutY="32.0" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-background-color: #EEE;" text="Delete" textFill="#323232" />
+                        <Button fx:id="parse" layoutX="54.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: #eee; -fx-pref-width: 60;" text="Parse" textFill="#323232" />
                      </children>
                   </AnchorPane>
               </items>

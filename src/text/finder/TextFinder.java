@@ -25,14 +25,14 @@ public class TextFinder extends Application {
     @Override
     public void start(Stage primaryStage) {      
         try{
-        FXMLLoader loadLoadingWindow = new FXMLLoader();
-        loadLoadingWindow.setLocation(getClass().getResource("Grafica.fxml"));
-        Parent root = loadLoadingWindow.load();
-        
-        Scene scene = new Scene(root, 800, 450);
-        primaryStage.setTitle("Text Finder");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            FXMLLoader loadLoadingWindow = new FXMLLoader();
+            loadLoadingWindow.setLocation(getClass().getResource("/text/finder/Grafica.fxml"));
+            Parent root = loadLoadingWindow.load();
+
+            Scene scene = new Scene(root, 800, 450);
+            primaryStage.setTitle("Text Finder");
+            primaryStage.setScene(scene);
+            primaryStage.show();
         }catch(Exception e){
             System.err.println("Error "+e);
         }
