@@ -6,9 +6,15 @@
 package text.finder;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,21 +66,48 @@ public class Controller implements Initializable  {
             String separator = "\\";
             String dataAux[] = data.replaceAll(Pattern.quote(separator), "\\\\").split("\\\\");
             System.out.println(Arrays.toString(dataAux));
-            
+                        
             data = dataAux[dataAux.length -1];
             listaFiles.insertAtLast(data);
-            addElements();
             try {
-                String [] cmd = {"copy " + selectedFile.toString() + "  ..\\library "}; //Comando de apagado en windows
-                Runtime.getRuntime().exec(cmd);
-            } catch (IOException ioe) {
-                System.out.println (ioe);
+                copyFileUsingStream(selectedFile, data);
+            } catch (IOException ex) {
+                System.err.print(ex);
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            addElements();
+//            try {
+//                String [] cmd = {"copy " + selectedFile.toString() + "  ..\\library "}; //Comando de apagado en windows
+//                Runtime.getRuntime().exec(cmd);
+//            } catch (IOException ioe) {
+//                System.out.println (ioe);
+//            }
         });
      
         
         
     }
+    
+    private static void copyFileUsingStream(File source, String stringDest) throws IOException {
+       
+    InputStream is = null;
+    OutputStream os = null;
+    try {        
+        File dest = new File("src\\library\\"+stringDest);
+        dest.createNewFile();
+        is = new FileInputStream(source);
+        os = new FileOutputStream(dest);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = is.read(buffer)) > 0) {
+            os.write(buffer, 0, length);
+        }
+    } finally {
+        is.close();
+        os.close();
+    }
+}
     
     private void addElements(){
         
