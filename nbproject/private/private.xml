@@ -5,8 +5,11 @@
         <group>
             <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/Lista.java</file>
             <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/Controller.java</file>
+            <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/NodoLista.java</file>
+            <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/NodoArbol.java</file>
             <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/TextFinder.java</file>
             <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/Grafica.fxml</file>
+            <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/Arbol.java</file>
             <file>file:/C:/Users/Keons/Documents/NetBeansProjects/Text-Finder/src/text/finder/Nodo.java</file>
         </group>
     </open-files>
