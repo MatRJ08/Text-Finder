@@ -5,7 +5,7 @@ package text.finder;
  * @author Keons
  */
 public class Lista {
-    private Nodo head;
+    private NodoLista head;
     private int size;
   
     public Lista(){
@@ -27,12 +27,12 @@ public class Lista {
      */
     public void insertFirst(Object data){
         if (head==null){
-            head = new Nodo(data);
+            head = new NodoLista(data);
             head.setNext(null);
         }
         else{
-          Nodo temp = head;
-          Nodo newNodo = new Nodo(data);
+          NodoLista temp = head;
+          NodoLista newNodo = new NodoLista(data);
           newNodo.setNext(temp);
           head = newNodo;
           
@@ -43,12 +43,12 @@ public class Lista {
     
     public void insertAtLast(Object data){
         if (head==null){
-            head = new Nodo(data);
+            head = new NodoLista(data);
             head.setNext(null);
         }
         else{
-            Nodo temp = head;
-            Nodo newNodo = new Nodo(data);
+            NodoLista temp = head;
+            NodoLista newNodo = new NodoLista(data);
             newNodo.setNext(null);
             while(temp.getNext() != null)
             {
@@ -62,10 +62,10 @@ public class Lista {
      * Función que elimina el primer nodo de una lista
      * @return El nodo que se eliminó o null si la lista estaba vacía
      */
-    public Nodo deleteFirst(){
+    public NodoLista deleteFirst(){
 
         if (this.head != null) {
-            Nodo temp = this.head;
+            NodoLista temp = this.head;
             this.head = this.head.getNext();
             this.size--;
             return temp;
@@ -82,7 +82,7 @@ public class Lista {
      */
     public void printList(Lista list) { 
         
-        Nodo current = list.head; 
+        NodoLista current = list.head; 
    
         System.out.print("Lista: "); 
         while (current != null) { 
@@ -92,7 +92,7 @@ public class Lista {
         } 
     }
 
-    public Nodo getHead() {
+    public NodoLista getHead() {
         return head;
     }
     /**
