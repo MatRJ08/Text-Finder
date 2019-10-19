@@ -13,13 +13,26 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="97.0">
          <children>
-            <SplitPane dividerPositions="0.8839590443686007" orientation="VERTICAL" prefHeight="448.0" prefWidth="169.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.13822525597269625, 0.3054607508532423, 0.9044368600682594" orientation="VERTICAL" prefHeight="448.0" prefWidth="169.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
+                  <AnchorPane prefHeight="333.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="search" layoutX="134.0" layoutY="45.0" mnemonicParsing="false" text="Search" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="134.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="45.0" />
+                        <TextField fx:id="textToSearch" layoutX="26.0" layoutY="15.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="80.0" layoutY="6.0" text="Sort By:" />
+                        <ChoiceBox fx:id="sortMethods" layoutX="25.0" layoutY="30.0" prefWidth="150.0" />
+                        <Button fx:id="sort" layoutX="137.0" layoutY="60.0" mnemonicParsing="false" text="Sort" />
+                     </children>
+                  </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="167.0">
                      <children>
-                        <ScrollPane prefHeight="515.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane prefHeight="289.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <content>
-                            <AnchorPane fx:id="filesPane" prefWidth="200.0" />
+                            <AnchorPane fx:id="filesPane" prefWidth="198.0" />
                           </content>
                         </ScrollPane>
                      </children></AnchorPane>

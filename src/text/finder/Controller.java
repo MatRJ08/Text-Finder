@@ -25,14 +25,14 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
@@ -50,6 +50,14 @@ public class Controller implements Initializable  {
     Lista listaParsedFiles = new Lista();
     private int filesNames = 0 ;
     private String lastSelected;
+    @FXML
+    TextField textToSearch;
+    @FXML
+    Button search;
+    @FXML
+    Button sort;
+    @FXML
+    ChoiceBox sortMethods;
     @FXML
     Button addFile;
     @FXML
@@ -74,6 +82,19 @@ public class Controller implements Initializable  {
         parse.setOnAction((ActionEvent event) -> {
             parseFile();
         });
+        
+        search.setOnAction((ActionEvent event) -> {
+            searchInFile();
+        });
+        
+        
+        sort.setOnAction((ActionEvent event) -> {
+            sortBy();
+        });
+        
+        sortMethods.getItems().addAll("QuickSort","BubbleSort","RadixSort");
+        sortMethods.setValue("QuickSort");
+        
         
       
      
@@ -123,6 +144,9 @@ public class Controller implements Initializable  {
     }   
     
     
+    
+    
+    
     /**
      * 
      * https://www.tutorialspoint.com/create-a-new-empty-file-in-java
@@ -160,6 +184,16 @@ public class Controller implements Initializable  {
     }
     
     
+    
+    
+    private void searchInFile(){
+        System.out.println("Buscando "+textToSearch.getText());
+    }
+            
+            
+            
+            
+            
     private void addElements(){
         
         NodoLista current = listaFiles.getHead();          
@@ -253,6 +287,18 @@ public class Controller implements Initializable  {
         }
         
     }
+    
+    
+    
+    
+    private void sortBy(){
+        String sortMethod = sortMethods.getValue().toString();
+        System.out.println("Metodo " + sortMethod);
+    }
+    
+    
+    
+    
     
     public void insertLineInTree(String[] fields){
         Arbol arbol = new Arbol();
