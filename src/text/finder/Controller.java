@@ -188,6 +188,9 @@ public class Controller implements Initializable  {
     
     private void searchInFile(){
         System.out.println("Buscando "+textToSearch.getText());
+        Nodo current = listaParsedFiles.getHead();
+        Arbol arbol = (Arbol)current.getData();
+        System.out.print(arbol.ifNodoExists(arbol.getRoot(), textToSearch.getText().toLowerCase()).getWord());
     }
             
             
@@ -243,11 +246,13 @@ public class Controller implements Initializable  {
                 br = new BufferedReader(new FileReader("src\\library\\"+lastSelected.replace("  ", "")));
                 String line;     
                 
-
+                Arbol arbol = new Arbol();
                 while ((line = br.readLine()) != null) {
                     String[] fields = line.split(FieldDelimiter, -1);
-                    insertLineInTree(fields);
+                    insertLineInTree(fields,arbol);
                 }
+                listaParsedFiles.insertAtLast(arbol);
+                inOrder(arbol.getRoot());
 
                 
 
@@ -272,14 +277,16 @@ public class Controller implements Initializable  {
 
                 List<XWPFParagraph> paragraphs = document.getParagraphs();
 
-
+                Arbol arbol = new Arbol();
                 for (XWPFParagraph para : paragraphs) {
                     
                     String sPara = para.getText().toString();
                     String[] fields = sPara.split(FieldDelimiter, -1);
-                    insertLineInTree(fields);
+                    insertLineInTree(fields,arbol);
 //                    System.out.println(para.getText());
                 }
+                listaParsedFiles.insertAtLast(arbol);
+                inOrder(arbol.getRoot());
                 fis.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -300,14 +307,11 @@ public class Controller implements Initializable  {
     
     
     
-    public void insertLineInTree(String[] fields){
-        Arbol arbol = new Arbol();
+    public void insertLineInTree(String[] fields,Arbol arbol){        
             for(int i = 0; i < fields.length; i++){
-                arbol.insert(fields[i]);
+                arbol.insert(fields[i],i);
                 System.out.println(fields[i]+" Added");
             }
-        listaParsedFiles.insertAtLast(arbol);
-        inOrder(arbol.getRoot());
     }
     
     
@@ -315,7 +319,7 @@ public class Controller implements Initializable  {
         if(root !=  null) {
             inOrder(root.getIzq());
             //Visit the node by Printing the node data  
-            System.out.println(root.getData());
+            System.out.println(root.getData().getWord()+" "+root.getData().getRepetition());
             inOrder(root.getDer());
         }
     }
