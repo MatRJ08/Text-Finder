@@ -69,7 +69,13 @@ public class Arbol {
         return size;
     }
     
-    
+    /**
+     * @see https://www.geeksforgeeks.org/search-a-node-in-binary-tree/
+     * @param nodo
+     * @param word
+     * @return Un objeto tipo palabra si la palabra se encuentra
+     * @return null si la plabra no se encuentra
+     */
     public Palabra ifNodoExists( NodoArbol nodo, String word){  
         if (nodo == null)  
             return null;  
