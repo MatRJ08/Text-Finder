@@ -25,8 +25,8 @@ public class Arbol {
      * Función que llama a la funcion insertAux
      * @param data 
      */
-    public void insert(String data){
-        root = insertAux(data, root);
+    public void insert(String data,int index){
+        root = insertAux(data, root, index);
     }
     
     
@@ -34,66 +34,33 @@ public class Arbol {
      * Función qe crea un nodo a partir de los datos que se ingresen y lo inserta en el arbol
      * @param data 
      */
-    private NodoArbol insertAux(String data, NodoArbol nodo){
+    private NodoArbol insertAux(String data, NodoArbol nodo, int index){
         if (nodo == null){            
-            nodo = new NodoArbol(data);
+            nodo = new NodoArbol(new Palabra(data,index));
             
-        } else{            
-          String sData = (String)nodo.getData().toLowerCase();
+        } else{      
+          Palabra word = nodo.getData();
+          String sData = word.getWord().toLowerCase() ;
           
           if( sData.compareTo(data.toLowerCase()) > 0) {              
-              nodo.setIzq(insertAux(data, nodo.getIzq()));
+              nodo.setIzq(insertAux(data, nodo.getIzq(), index));
               
           }else if( sData.compareTo(data.toLowerCase()) < 0){              
-              nodo.setDer(insertAux(data, nodo.getDer()));
-              
+              nodo.setDer(insertAux(data, nodo.getDer(), index));
+                     
+          }else if( sData.compareTo(data.toLowerCase()) == 0){              
+              nodo.getData().addRepetition(index);              
           }          
         }
         return nodo;
     }
+
     
-    
-   
-    /**
-     * Función que elimina un nodo del arbol
-     * @return El nodo que se eliminó o null si la arbol estaba vacía
-     */
-//    public NodoArbol deleteFirst(){
-//
-//        if (this.root != null) {
-//            NodoArbol temp = this.root;
-//            this.root = this.root.getNext();
-//            this.size--;
-//            return temp;
-//
-//        }else{
-//             return null;
-//
-//        }
-//    }
-    
-    /**
-     * Método para imprimir en consola una arbol
-     * @param tree  Arbol que se quiere imprimir
-     */
-//    public void printList(Arbol tree) { 
-//        
-//        NodoArbol current = tree.root; 
-//   
-//        System.out.print("Arbol: "); 
-//        while (current != null) { 
-//            System.out.print(current.getData() + " "); 
-//   
-//            current = current.getNext(); 
-//        } 
-//    }
-    /**
-     * 
-     * @return root
-     */
     public NodoArbol getRoot() {
         return root;
     }
+    
+    
     /**
      * Función para saber el tamaño del arbol
      * @return El tamaño del arbol
@@ -101,5 +68,25 @@ public class Arbol {
     public int getSize() {
         return size;
     }
+    
+    
+    public Palabra ifNodoExists( NodoArbol nodo, String word){  
+        if (nodo == null)  
+            return null;  
+
+        if (nodo.getData().getWord().toLowerCase().compareTo(word) == 0)  
+            return nodo.getData();  
+
+        // then recur on left sutree / 
+        Palabra res1 = ifNodoExists(nodo.getIzq(), word);  
+
+        // now recur on right subtree / 
+        Palabra res2 = ifNodoExists(nodo.getDer(), word);  
+
+        if(res1 != null)
+            return res1;
+        else
+            return res2;
+    }  
     
 }
