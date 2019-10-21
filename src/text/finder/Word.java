@@ -9,14 +9,16 @@ package text.finder;
  *
  * @author Keons
  */
-public class Palabra {
+public class Word {
     private String word;
     private Lista index = new Lista();
+    private String file;
     private int repetition = 0;
     
-    public Palabra(String word, int index){
+    public Word(String word, int index, String file){
         this.word = word;
         this.index.insertAtLast(index);
+        this.file = file;
         repetition++;
     }
     
@@ -43,6 +45,12 @@ public class Palabra {
     public int getRepetition() {
         return repetition;
     }
+
+    public String getFile() {
+        return file;
+    }
+    
+    
     
     
     

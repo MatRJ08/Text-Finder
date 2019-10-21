@@ -84,7 +84,7 @@ public class Controller implements Initializable  {
         });
         
         search.setOnAction((ActionEvent event) -> {
-            searchInFile();
+            searchWordInFile();
         });
         
         
@@ -186,11 +186,17 @@ public class Controller implements Initializable  {
     
     
     
-    private void searchInFile(){
+    private void searchWordInFile(){
         System.out.println("Buscando "+textToSearch.getText());
-        Nodo current = listaParsedFiles.getHead();
-        Arbol arbol = (Arbol)current.getData();
-        System.out.print(arbol.ifNodoExists(arbol.getRoot(), textToSearch.getText().toLowerCase()).getWord());
+        NodoLista current = listaParsedFiles.getHead();
+        while(current != null){
+            Arbol arbol = (Arbol)current.getData();
+            Word finded = arbol.ifNodoExists(arbol.getRoot(), textToSearch.getText().toLowerCase());
+            if( finded != null){
+                System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
+            }
+            current = current.getNext();
+        }
     }
             
             
@@ -234,6 +240,10 @@ public class Controller implements Initializable  {
         }
 
     }
+    
+    
+    
+    
     
     private void parseFile(){
         String FieldDelimiter = " ";
@@ -298,6 +308,7 @@ public class Controller implements Initializable  {
     
     
     
+    
     private void sortBy(){
         String sortMethod = sortMethods.getValue().toString();
         System.out.println("Metodo " + sortMethod);
@@ -309,10 +320,13 @@ public class Controller implements Initializable  {
     
     public void insertLineInTree(String[] fields,Arbol arbol){        
             for(int i = 0; i < fields.length; i++){
-                arbol.insert(fields[i],i);
+                arbol.insert(fields[i],i, lastSelected);
                 System.out.println(fields[i]+" Added");
             }
     }
+    
+    
+    
     
     
     public void inOrder(NodoArbol root) {

@@ -11,7 +11,7 @@ public class NodoArbol extends Nodo{
     private int indice;
 
     
-    public NodoArbol(Palabra data) {
+    public NodoArbol(Word data) {
         super(data);
         this.der = null;
         this.izq = null;
@@ -19,8 +19,8 @@ public class NodoArbol extends Nodo{
     
     
     @Override
-    public Palabra getData(){
-        return (Palabra)data;
+    public Word getData(){
+        return (Word)data;
     }
     
     /**

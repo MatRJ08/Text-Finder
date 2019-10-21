@@ -25,8 +25,8 @@ public class Arbol {
      * Función que llama a la funcion insertAux
      * @param data 
      */
-    public void insert(String data,int index){
-        root = insertAux(data, root, index);
+    public void insert(String data,int index, String file){
+        root = insertAux(data, root, index, file);
     }
     
     
@@ -34,19 +34,19 @@ public class Arbol {
      * Función qe crea un nodo a partir de los datos que se ingresen y lo inserta en el arbol
      * @param data 
      */
-    private NodoArbol insertAux(String data, NodoArbol nodo, int index){
+    private NodoArbol insertAux(String data, NodoArbol nodo, int index, String file){
         if (nodo == null){            
-            nodo = new NodoArbol(new Palabra(data,index));
+            nodo = new NodoArbol(new Word(data, index, file));
             
         } else{      
-          Palabra word = nodo.getData();
+          Word word = nodo.getData();
           String sData = word.getWord().toLowerCase() ;
           
           if( sData.compareTo(data.toLowerCase()) > 0) {              
-              nodo.setIzq(insertAux(data, nodo.getIzq(), index));
+              nodo.setIzq(insertAux(data, nodo.getIzq(), index, file));
               
           }else if( sData.compareTo(data.toLowerCase()) < 0){              
-              nodo.setDer(insertAux(data, nodo.getDer(), index));
+              nodo.setDer(insertAux(data, nodo.getDer(), index, file));
                      
           }else if( sData.compareTo(data.toLowerCase()) == 0){              
               nodo.getData().addRepetition(index);              
@@ -76,7 +76,7 @@ public class Arbol {
      * @return Un objeto tipo palabra si la palabra se encuentra
      * @return null si la plabra no se encuentra
      */
-    public Palabra ifNodoExists( NodoArbol nodo, String word){  
+    public Word ifNodoExists( NodoArbol nodo, String word){  
         if (nodo == null)  
             return null;  
 
@@ -84,10 +84,10 @@ public class Arbol {
             return nodo.getData();  
 
         // then recur on left sutree / 
-        Palabra res1 = ifNodoExists(nodo.getIzq(), word);  
+        Word res1 = ifNodoExists(nodo.getIzq(), word);  
 
         // now recur on right subtree / 
-        Palabra res2 = ifNodoExists(nodo.getDer(), word);  
+        Word res2 = ifNodoExists(nodo.getDer(), word);  
 
         if(res1 != null)
             return res1;
