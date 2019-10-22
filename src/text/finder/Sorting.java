@@ -11,37 +11,46 @@ public class Sorting {
 	/***
 	 * QuickSort para Ordenar por Nombre. Still On Work
 	 */
-	public Nodo quickSorter(Lista arr) {
+	public NodoLista quickSorter(Lista arr) {
 		if(arr.getHead()==null|| arr.getHead()==null) {
 			return arr.getHead();
 		}
 		return quicky(arr.getHead(),null);
 		}
 	
-	private Nodo quicky(Nodo start, Nodo end) {
+	private NodoLista quicky(NodoLista start, NodoLista end) {
 		if(start ==null||start==end|| start.getNext()==end) {
 			return start;
 		}
 		
 		Lista[] resultados= partition(start,end);
-		Nodo resultadosIzq=quicky(resultados[0].getHead(), resultados[1].getHead());
-		Nodo resultadosDer=quicky(resultados[1].getHead().getNext(),end);
+		NodoLista resultadosIzq=quicky(resultados[0].getHead(), resultados[1].getHead());
+		NodoLista resultadosDer=quicky(resultados[1].getHead().getNext(),end);
+                return null;//CORREGIR
 	}
 	
-	private Lista partition(Nodo start, Nodo end) {
+	private Lista[] partition(NodoLista start, NodoLista end) {
 		if(start==null|| start==end || start.getNext()==end) {
 		}
-		Nodo nodoDummy=new Nodo(0);
+		NodoLista nodoDummy=new NodoLista(0);
 		nodoDummy.setNext(start);
-		for(Nodo j = start; j != null && j.getNext() != null && j.getNext() != end; j = j.getNext()) {
-			while(j.getNext() != null && j.getNext().getData() <= start.getData()) {
-				Nodo temp= j.getNext();
+		for(NodoLista j = start; j != null && j.getNext() != null && j.getNext() != end; j = j.getNext()) {
+			int jint = (int)j.getNext().getData();
+                        int startNumber = (int) start.getData();
+                        while(j.getNext() != null && jint <= startNumber) {
+				NodoLista temp= j.getNext();
 				j.setNext(j.getNext().getNext());
 				temp.setNext(nodoDummy.getNext());
 				nodoDummy.setNext(temp);
 				}
 			}
-		return new Lista[]= {nodoDummy.getNext(),start};
+                Lista rtrn1 = new Lista();
+                Lista rtrn2= new Lista();
+                rtrn1.insertAtLast(nodoDummy.getNext());
+                rtrn2.insertAtLast(start);
+                int[] hola = {1,2};
+                Lista[] lst= {rtrn1, rtrn2};
+		return  lst;
 	}
 	
 	/***
