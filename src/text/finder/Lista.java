@@ -57,6 +57,25 @@ public class Lista {
             temp.setNext(newNodo);
         }
     }
+    
+    public void insertAtLast(Object data, String name){
+        if (head==null){
+            head = new NodoLista(data);
+            head.setName(name);
+            head.setNext(null);
+        }
+        else{
+            NodoLista temp = head;
+            NodoLista newNodo = new NodoLista(data);
+            newNodo.setNext(null);
+            newNodo.setName(name);
+            while(temp.getNext() != null)
+            {
+                temp = temp.getNext(); 
+            }
+            temp.setNext(newNodo);
+        }
+    }
    
     /**
      * Función que elimina el primer nodo de una lista
@@ -90,6 +109,11 @@ public class Lista {
    
             current = current.getNext(); 
         } 
+    }
+    
+    
+    public void deleteList(){
+        this.head = null;
     }
 
     public NodoLista getHead() {

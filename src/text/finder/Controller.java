@@ -53,7 +53,9 @@ public class Controller implements Initializable  {
     @FXML
     TextField textToSearch;
     @FXML
-    Button search;
+    Button searchWord;
+    @FXML
+    Button searchPhrase;
     @FXML
     Button sort;
     @FXML
@@ -83,8 +85,12 @@ public class Controller implements Initializable  {
             parseFile();
         });
         
-        search.setOnAction((ActionEvent event) -> {
+        searchWord.setOnAction((ActionEvent event) -> {
             searchWordInFile();
+        });        
+        
+        searchPhrase.setOnAction((ActionEvent event) -> {
+            searchPhraseInFile();
         });
         
         
@@ -198,9 +204,86 @@ public class Controller implements Initializable  {
             current = current.getNext();
         }
     }
+    
+    
+    
+    
+    private void searchPhraseInFile(){
+        System.out.println("Buscando "+textToSearch.getText());
+        NodoLista current = listaParsedFiles.getHead();
+        while (current != null){
+            Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "), 0, 0, new Lista());
+            if( finded != null){
+                NodoLista findedPositions = finded.getHead();
+                Lista wordPositions = (Lista)findedPositions.getData();
+                NodoLista wordPosition = wordPositions.getHead();
+                while(wordPosition != null){
+                    int wordPositionIndex = (int)wordPosition.getData();
+                    NodoLista next = findedPositions.getNext();
+                    for(int i=1;next != null;i++){
+                           if(!listContainsPos((Lista)next.getData(), wordPositionIndex+i)){
+                               break;
+                           }else if(next.getNext() == null){
+                                System.out.println("Frase "+textToSearch+" encontrada en "+current.getName());
+                           }
+                           next = next.getNext();
+                    }
+                    wordPosition = wordPosition.getNext();
+                }
+            }else{
+                System.out.println("Frase no encontrada en "+current.getName());
+            }
+            current = current.getNext();
+        }
+    }           
+    
+    
+    
+    
+    
+    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
+//        while(words[wordIndex]!= null){
             
+            Arbol arbol = (Arbol)current.getData();
+            Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
             
+            if( finded != null){
+                wordsPosition.insertAtLast(finded.getIndex());
+                if(wordIndex == words.length-1){
+                    return wordsPosition;
+                }else {
+                    return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
+//                    for (int j = next.getRepetition(); j != 0; j--){
+//                        if(finded.nextTo(next.get())){
+//
+//                        }                
+//                        
+//                    }
+//                    
+                }
+                
+//                System.out.println(finded.getWord() + "Palabra encontrada en " + finded.getFile());
+            }else{
+                
+                return null;
+            }
             
+//        }
+//        return null;
+    }
+    
+        
+    public boolean listContainsPos(Lista list, int pos){
+        NodoLista current =  list.getHead();
+        while (current != null){
+            int posCurrent = (int)current.getData();
+            if(posCurrent == pos){
+                return true;
+            }else
+                current = current.getNext();
+        }
+        return false;
+    }        
             
             
     private void addElements(){
@@ -247,13 +330,13 @@ public class Controller implements Initializable  {
     
     private void parseFile(){
         String FieldDelimiter = " ";
- 
+        lastSelected = lastSelected.replace("  ", "");
         
         if(lastSelected.contains("txt")){        
             BufferedReader br;
             try {
 
-                br = new BufferedReader(new FileReader("src\\library\\"+lastSelected.replace("  ", "")));
+                br = new BufferedReader(new FileReader("src\\library\\"+lastSelected));
                 String line;     
                 
                 Arbol arbol = new Arbol();
@@ -261,7 +344,7 @@ public class Controller implements Initializable  {
                     String[] fields = line.split(FieldDelimiter, -1);
                     insertLineInTree(fields,arbol);
                 }
-                listaParsedFiles.insertAtLast(arbol);
+                listaParsedFiles.insertAtLast(arbol,lastSelected);
                 inOrder(arbol.getRoot());
 
                 
@@ -280,7 +363,7 @@ public class Controller implements Initializable  {
         }else if(lastSelected.contains("docx")){
             
             try {
-                File file = new File("src\\library\\"+lastSelected.replace("  ", ""));
+                File file = new File("src\\library\\"+lastSelected);
                 FileInputStream fis = new FileInputStream(file.getAbsolutePath());
 
                 XWPFDocument document = new XWPFDocument(fis);
@@ -295,7 +378,7 @@ public class Controller implements Initializable  {
                     insertLineInTree(fields,arbol);
 //                    System.out.println(para.getText());
                 }
-                listaParsedFiles.insertAtLast(arbol);
+                listaParsedFiles.insertAtLast(arbol,lastSelected);
                 inOrder(arbol.getRoot());
                 fis.close();
             } catch (Exception e) {

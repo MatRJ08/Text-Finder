@@ -27,21 +27,29 @@ public class Word {
         repetition++;
     }
     
-    public boolean nextTo(int index){
+    public int nextTo(int index){
         Nodo current = this.index.getHead();
         while(current != null){
             int actualIndex = (int)current.getData();
-            if(actualIndex - index == 1){
-                return true;
+            if(actualIndex - index == -1){
+                return actualIndex;
             }
         }
-        return false;
+        return -1;
     }
 
     public String getWord() {
         return word;
     }
 
+    public Lista getIndex() {
+        return index;
+    }
+    
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
+    }
+    
     public int getRepetition() {
         return repetition;
     }
