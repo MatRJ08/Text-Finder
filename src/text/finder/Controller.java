@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -33,6 +34,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
@@ -224,7 +228,7 @@ public class Controller implements Initializable  {
                            if(!listContainsPos((Lista)next.getData(), wordPositionIndex+i)){
                                break;
                            }else if(next.getNext() == null){
-                                System.out.println("Frase "+textToSearch+" encontrada en "+current.getName());
+                                System.out.println("Frase "+textToSearch.getText()+" encontrada en "+current.getName());
                            }
                            next = next.getNext();
                     }
@@ -384,6 +388,13 @@ public class Controller implements Initializable  {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else if(lastSelected.contains("pdf")){
+            Parser parser = new Parser();
+            Arbol arbol = parser.pdfParser(lastSelected);
+            
+            listaParsedFiles.insertAtLast(arbol,lastSelected);
+            inOrder(arbol.getRoot());
+			
         }
         
     }
