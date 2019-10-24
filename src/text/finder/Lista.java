@@ -77,7 +77,7 @@ public class Lista {
         }
     }
     public void delete(Object data) {
-        if (buscar(data)!=null) {
+        if (buscar(data)) {
             if (head.getData() == data) {
                 head = head.getNext();
             } else{
@@ -87,8 +87,10 @@ public class Lista {
                 }
                 NodoLista siguiente = aux.getNext().getNext();
                 aux.setNext(siguiente);  
+                System.out.println("borrado");
             }
-        }
+        }else
+            System.out.println("no borrado");
     
     }
    
@@ -110,6 +112,25 @@ public class Lista {
         }
     }
     
+    /***
+     * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
+     * @param data
+     * @return
+     */
+    public boolean buscar(Object data){ 
+        NodoLista aux = head;
+        boolean found = false;
+        while(aux != null && found != true){
+            if (data == aux.getData()){ 
+            	found = true;
+            }
+            else{
+                aux = aux.getNext();
+            }
+        }
+        return found;
+    }
+    
     /**
      * Método para imprimir en consola una lista
      * @param list  Lista que se quiere imprimir
@@ -124,24 +145,6 @@ public class Lista {
    
             current = current.getNext(); 
         } 
-    }
-    /***
-     * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
-     * @param data
-     * @return
-     */
-    public Object buscar(Object data){ 
-        NodoLista aux = head;
-        boolean found = false;
-        while(aux != null && found != true){
-            if (data == aux.getData()){
-            	found= true;
-            }
-            else{
-                aux = aux.getNext();
-            }
-        }
-        return found;
     }
     
     public void deleteList(){

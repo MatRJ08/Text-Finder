@@ -102,6 +102,11 @@ public class Controller implements Initializable  {
             sortBy();
         });
         
+        
+        deleteFile.setOnAction((ActionEvent event) -> {
+            removeFile();
+        });
+        
         sortMethods.getItems().addAll("QuickSort","BubbleSort","RadixSort");
         sortMethods.setValue("QuickSort");
         
@@ -148,7 +153,7 @@ public class Controller implements Initializable  {
                 
             }
             
-            addElements();
+            addLibraryElements();
         
        
     }   
@@ -225,12 +230,14 @@ public class Controller implements Initializable  {
                     int wordPositionIndex = (int)wordPosition.getData();
                     NodoLista next = findedPositions.getNext();
                     for(int i=1;next != null;i++){
-                           if(!listContainsPos((Lista)next.getData(), wordPositionIndex+i)){
-                               break;
-                           }else if(next.getNext() == null){
-                                System.out.println("Frase "+textToSearch.getText()+" encontrada en "+current.getName());
-                           }
-                           next = next.getNext();
+                        if(!listContainsPos((Lista)next.getData(), wordPositionIndex+i)){
+                           break;
+                        }else if(next.getNext() == null){
+
+                            System.out.println("Frase "+textToSearch.getText()+" encontrada en "+current.getName());
+                            addFindedElements((Label)current.getData());
+                        }
+                        next = next.getNext();
                     }
                     wordPosition = wordPosition.getNext();
                 }
@@ -239,58 +246,21 @@ public class Controller implements Initializable  {
             }
             current = current.getNext();
         }
-    }           
+    } 
     
     
     
     
     
-    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
-//        while(words[wordIndex]!= null){
-            
-            Arbol arbol = (Arbol)current.getData();
-            Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
-            
-            if( finded != null){
-                wordsPosition.insertAtLast(finded.getIndex());
-                if(wordIndex == words.length-1){
-                    return wordsPosition;
-                }else {
-                    return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
-//                    for (int j = next.getRepetition(); j != 0; j--){
-//                        if(finded.nextTo(next.get())){
-//
-//                        }                
-//                        
-//                    }
-//                    
-                }
-                
-//                System.out.println(finded.getWord() + "Palabra encontrada en " + finded.getFile());
-            }else{
-                
-                return null;
-            }
-            
-//        }
-//        return null;
-    }
-    
+    private void addFindedElements(Label label){
         
-    public boolean listContainsPos(Lista list, int pos){
-        NodoLista current =  list.getHead();
-        while (current != null){
-            int posCurrent = (int)current.getData();
-            if(posCurrent == pos){
-                return true;
-            }else
-                current = current.getNext();
-        }
-        return false;
-    }        
+    }
             
-            
-    private void addElements(){
+      
+    
+    
+    
+    private void addLibraryElements(){
         
         NodoLista current = listaFiles.getHead();          
         double y = 10;
@@ -298,7 +268,7 @@ public class Controller implements Initializable  {
         
         while(current != null){
             
-            Label labelFile = new Label("  "+(String)current.getData());
+            Label labelFile = new Label((String)current.getData());
             Tooltip tooltip = new Tooltip((String)current.getData());
             
             labelFile.setTooltip(tooltip);
@@ -332,70 +302,68 @@ public class Controller implements Initializable  {
     
     
     
-    private void parseFile(){
-        String FieldDelimiter = " ";
-        lastSelected = lastSelected.replace("  ", "");
+    
+    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
         
-        if(lastSelected.contains("txt")){        
-            BufferedReader br;
-            try {
+        Arbol arbol = (Arbol)current.getData();
+        Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
 
-                br = new BufferedReader(new FileReader("src\\library\\"+lastSelected));
-                String line;     
-                
-                Arbol arbol = new Arbol();
-                while ((line = br.readLine()) != null) {
-                    String[] fields = line.split(FieldDelimiter, -1);
-                    insertLineInTree(fields,arbol);
-                }
-                listaParsedFiles.insertAtLast(arbol,lastSelected);
-                inOrder(arbol.getRoot());
-
-                
-
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(TextFinder.class.getName())
-                        .log(Level.SEVERE, null, ex);
-
-            } catch (IOException ex) {
-                Logger.getLogger(TextFinder.class.getName())
-                        .log(Level.SEVERE, null, ex);
-            }
+        if( finded != null){
             
+            wordsPosition.insertAtLast(finded.getIndex());
             
+            if(wordIndex == words.length-1)
+                return wordsPosition;
             
-        }else if(lastSelected.contains("docx")){
-            
-            try {
-                File file = new File("src\\library\\"+lastSelected);
-                FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-
-                XWPFDocument document = new XWPFDocument(fis);
-
-                List<XWPFParagraph> paragraphs = document.getParagraphs();
-
-                Arbol arbol = new Arbol();
-                for (XWPFParagraph para : paragraphs) {
-                    
-                    String sPara = para.getText().toString();
-                    String[] fields = sPara.split(FieldDelimiter, -1);
-                    insertLineInTree(fields,arbol);
-//                    System.out.println(para.getText());
-                }
-                listaParsedFiles.insertAtLast(arbol,lastSelected);
-                inOrder(arbol.getRoot());
-                fis.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else if(lastSelected.contains("pdf")){
-            Parser parser = new Parser();
-            Arbol arbol = parser.pdfParser(lastSelected);
-            
-            listaParsedFiles.insertAtLast(arbol,lastSelected);
-            inOrder(arbol.getRoot());
-			
+            else 
+                return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
+//      
+        }else
+            return null;
+       
+    }
+    
+        
+    public boolean listContainsPos(Lista list, int pos){
+        NodoLista current =  list.getHead();
+        while (current != null){
+            int posCurrent = (int)current.getData();
+            if(posCurrent == pos){
+                return true;
+            }else
+                current = current.getNext();
         }
+        return false;
+    }        
+    
+    
+   private void removeFile(){       
+        listaFiles.delete(lastSelected.replace("  ",""));
+        addLibraryElements();
+           
+    
+   }
+    
+    private void parseFile(){
+        
+        lastSelected = lastSelected.replace("  ", "");
+        Parser parser = new Parser();
+        Arbol arbol = null;
+        
+        if(lastSelected.contains("txt"))             
+            arbol = parser.txtParser(lastSelected);
+            
+        
+        else if(lastSelected.contains("docx"))
+            arbol = parser.docxParser(lastSelected);
+                
+        
+        else if(lastSelected.contains("pdf"))            
+            arbol = parser.pdfParser(lastSelected);            
+			
+        
+        listaParsedFiles.insertAtLast(arbol,lastSelected);
+        inOrder(arbol.getRoot());
         
     }
     

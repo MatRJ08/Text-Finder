@@ -1,5 +1,11 @@
 package text.finder;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -8,6 +14,10 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 public class Parser {
 
@@ -61,6 +71,64 @@ public class Parser {
     
     
     
+    public Arbol docxParser(String lastSelected){
+    
+        Arbol arbol = new Arbol();
+        try {
+            
+            File file = new File("src\\library\\"+lastSelected);
+            FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+            XWPFDocument document = new XWPFDocument(fis);
+            List<XWPFParagraph> paragraphs = document.getParagraphs();
+
+            for (XWPFParagraph para : paragraphs) {
+
+                String sPara = para.getText().toString();
+                String[] fields = sPara.split(FieldDelimiter, -1);
+                insertLineInTree(fields,arbol, lastSelected);
+                
+            }
+            
+            fis.close();
+            return arbol;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return arbol;
+    
+    }
+    
+    
+    
+    public Arbol txtParser(String lastSelected){
+        BufferedReader br;
+        Arbol arbol = new Arbol();
+            try {
+
+                br = new BufferedReader(new FileReader("src\\library\\"+lastSelected));
+                String line;     
+                
+                while ((line = br.readLine()) != null) {
+                    String[] fields = line.split(FieldDelimiter, -1);
+                    insertLineInTree(fields,arbol, lastSelected);
+                }
+                return arbol;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(TextFinder.class.getName())
+                        .log(Level.SEVERE, null, ex);
+
+            } catch (IOException ex) {
+                Logger.getLogger(TextFinder.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+            return arbol;
+    }
+    
+    
+    
+    
+    
     private void insertLineInTree(String[] fields,Arbol arbol,String lastSelected){        
             for(int i = 0; i < fields.length; i++){
                 if(!fields[i].equals(" ")){
@@ -70,15 +138,4 @@ public class Parser {
             }
     }
     
-    
-    
-    
-    private void inOrder(NodoArbol root) {
-        if(root !=  null) {
-            inOrder(root.getIzq());
-            //Visit the node by Printing the node data  
-            System.out.println(root.getData().getWord()+" "+root.getData().getRepetition());
-            inOrder(root.getDer());
-        }
-    }
 }
