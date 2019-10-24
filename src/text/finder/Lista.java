@@ -76,6 +76,21 @@ public class Lista {
             temp.setNext(newNodo);
         }
     }
+    public void delete(Object data) {
+        if (buscar(data)!=null) {
+            if (head.getData() == data) {
+                head = head.getNext();
+            } else{
+                NodoLista aux = head;
+                while(aux.getNext().getData() != data){
+                    aux = aux.getNext();
+                }
+                NodoLista siguiente = aux.getNext().getNext();
+                aux.setNext(siguiente);  
+            }
+        }
+    
+    }
    
     /**
      * Función que elimina el primer nodo de una lista
@@ -110,7 +125,24 @@ public class Lista {
             current = current.getNext(); 
         } 
     }
-    
+    /***
+     * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
+     * @param data
+     * @return
+     */
+    public Object buscar(Object data){ 
+        NodoLista aux = head;
+        boolean found = false;
+        while(aux != null && found != true){
+            if (data == aux.getData()){
+            	found= true;
+            }
+            else{
+                aux = aux.getNext();
+            }
+        }
+        return found;
+    }
     
     public void deleteList(){
         this.head = null;
