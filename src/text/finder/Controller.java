@@ -197,41 +197,44 @@ public class Controller implements Initializable  {
     
     private void searchWordInFile(){
         principalPane.getChildren().clear();
-        System.out.println("Buscando "+textToSearch.getText());
-        NodoLista current = listaParsedFiles.getHead();        
-        Lista findedElements = new Lista();        
+        String[] wordsToSearch = textToSearch.getText().split(" ");
         double x = 45;
-        boolean displayed = false;
-        
-        while(current != null){
+        for(int i = 0; i < wordsToSearch.length; i++){
+            System.out.println("Buscando "+wordsToSearch[i]);
+            NodoLista current = listaParsedFiles.getHead();        
+            Lista findedElements = new Lista();        
+            boolean displayed = false;
             
-            Arbol arbol = (Arbol)current.getData();
-            Word finded = arbol.ifNodoExists(arbol.getRoot(), textToSearch.getText().toLowerCase());
-            
-            if( finded != null){
-                if(!displayed){
-                    Label subTitle = new Label("Palabra "+ textToSearch.getText()+ " encontarda en: ");
-                    subTitle.setMinSize(200, 30);
-                    subTitle.setLayoutX(x);
-                    subTitle.setLayoutY((principalPane.getPrefHeight()-subTitle.getPrefHeight())*0.50);
-                    principalPane.getChildren().add(subTitle); 
-                    displayed = true;
+            while(current != null){
+
+                Arbol arbol = (Arbol)current.getData();
+                Word finded = arbol.ifNodoExists(arbol.getRoot(), wordsToSearch[i].toLowerCase());
+
+                if( finded != null){
+                    if(!displayed){
+                        Label subTitle = new Label("Palabra "+ wordsToSearch[i]+ " encontarda en: ");
+                        subTitle.setMinSize(200, 30);
+                        subTitle.setLayoutX(x);
+                        subTitle.setLayoutY((principalPane.getPrefHeight()-subTitle.getPrefHeight())*0.50);
+                        principalPane.getChildren().add(subTitle); 
+                        displayed = true;
+                    }
+
+                    if(null == findedElements.buscar(current.getName())){
+
+                        findedElements.insertAtLast(finded.getFile());
+                        System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
+
+                        addFindedElements(wordsToSearch[i],findedElements, x);
+                        x+=190;   
+
+                    }
+
                 }
-                    
-                if(null == findedElements.buscar(current.getName())){
-                    
-                    findedElements.insertAtLast(finded.getFile());
-                    System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
-                    
-                    addFindedElements(textToSearch.getText(),findedElements, x);
-                    x+=190;   
-                    
-                }
-                
+                current = current.getNext();
+
             }
-            
-            current = current.getNext();
-            
+            x+=35;   
         }
     }
     
