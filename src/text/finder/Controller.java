@@ -6,19 +6,14 @@
 package text.finder;
 
 import java.awt.Desktop;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -32,14 +27,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.apache.pdfbox.text.PDFTextStripperByArea;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+
+
+
 
 /**
  *
@@ -47,8 +41,6 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
  * @see https://stackoverflow.com/questions/54035976/javafx-with-fxml-adding-action-events-for-buttons
  * @version 11M15C
  */
-
-
 public class Controller implements Initializable  {
 
     Lista listaFiles = new Lista();
@@ -73,6 +65,8 @@ public class Controller implements Initializable  {
     Button deleteFile;
     @FXML
     Pane filesPane;
+    @FXML
+    Pane principalPane;
 
     
     @Override
@@ -110,13 +104,10 @@ public class Controller implements Initializable  {
         
         sortMethods.getItems().addAll("QuickSort","BubbleSort","RadixSort");
         sortMethods.setValue("QuickSort");
-        
-        
       
-     
-        
     }
    
+    
     
     
     /**
@@ -139,10 +130,10 @@ public class Controller implements Initializable  {
             Desktop desktop = Desktop.getDesktop();
             try {
             	desktop.open(selectedFile);
-            	} catch (IOException e) {
-            		// TODO Auto-generated catch block
-            		e.printStackTrace();
-            		}
+            }catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             
             System.out.println(data);
             String separator = "\\";
@@ -171,7 +162,6 @@ public class Controller implements Initializable  {
     
     
     
-    
     /**
      * 
      * https://www.tutorialspoint.com/create-a-new-empty-file-in-java
@@ -179,7 +169,7 @@ public class Controller implements Initializable  {
      * @param source
      * @param stringDest
      * @throws IOException 
-     */    
+     */  
     private static void copyFile(File source, String stringDest) throws IOException {
        
         InputStream is = null;
@@ -228,29 +218,42 @@ public class Controller implements Initializable  {
     
     
     private void searchPhraseInFile(){
+        principalPane.getChildren().clear();
         System.out.println("Buscando "+textToSearch.getText());
         NodoLista current = listaParsedFiles.getHead();
+        double x = 45;
+        Lista findedElements = new Lista();
         while (current != null){
             Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "), 0, 0, new Lista());
             if( finded != null){
                 NodoLista findedPositions = finded.getHead();
                 Lista wordPositions = (Lista)findedPositions.getData();
                 NodoLista wordPosition = wordPositions.getHead();
+                
                 while(wordPosition != null){
                     int wordPositionIndex = (int)wordPosition.getData();
                     NodoLista next = findedPositions.getNext();
+                    
                     for(int i=1;next != null;i++){
                         if(!listContainsPos((Lista)next.getData(), wordPositionIndex+i)){
                            break;
                         }else if(next.getNext() == null){
 
                             System.out.println("Frase "+textToSearch.getText()+" encontrada en "+current.getName());
-                            addFindedElements((Label)current.getData());
+                            if(!findedElements.buscar(current.getName())){
+                                
+                                findedElements.insertAtLast(current.getName());
+                                addFindedElements(findedElements, x);
+                            }
+                            x+=190;                            
+                            
                         }
                         next = next.getNext();
                     }
+                    
                     wordPosition = wordPosition.getNext();
                 }
+                
             }else{
                 System.out.println("Frase no encontrada en "+current.getName());
             }
@@ -261,8 +264,53 @@ public class Controller implements Initializable  {
     
     
     
+    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
+        
+        Arbol arbol = (Arbol)current.getData();
+        Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
+
+        if( finded != null){
+            
+            wordsPosition.insertAtLast(finded.getIndex());
+            
+            if(wordIndex == words.length-1)
+                return wordsPosition;
+            
+            else 
+                return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
+//      
+        }else
+            return null;
+       
+    }
     
-    private void addFindedElements(Label label){
+        
+    
+    
+    private void addFindedElements(Lista files,double x){
+        NodoLista current = files.getHead();
+        while(current!= null){
+            String textFile = (String) current.getData();
+            Label label = new Label(textFile);
+            label.setPrefSize(170, 30);
+            label.setLayoutY((principalPane.getPrefHeight()-label.getPrefHeight())*0.75);
+            label.setLayoutX(x);
+
+            if(textFile.contains("pdf"))
+                label.setStyle("-fx-background-color: rgb(242, 28, 10); -fx-text-fill: white ;");
+
+            else if(textFile.contains("txt"))
+                label.setStyle("-fx-background-color: grey; -fx-text-fill: white ;");  
+
+            else if(textFile.contains("docx"))
+                label.setStyle("-fx-background-color: rgb(0, 81, 151); -fx-text-fill: white; ");            
+
+            Tooltip tooltip = new Tooltip(label.getText());
+            label.setTooltip(tooltip);
+            label.setTextAlignment(TextAlignment.CENTER);
+            principalPane.getChildren().add(label); 
+            current = current.getNext();
+        }
         
     }
             
@@ -297,6 +345,7 @@ public class Controller implements Initializable  {
             
             labelFile.setOnMouseClicked((MouseEvent event) -> {
                 lastSelected = labelFile.getText();
+    
                 System.out.println("Did you click me?");
             });
             
@@ -312,29 +361,8 @@ public class Controller implements Initializable  {
     
     
     
-    
-    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
-        
-        Arbol arbol = (Arbol)current.getData();
-        Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
-
-        if( finded != null){
-            
-            wordsPosition.insertAtLast(finded.getIndex());
-            
-            if(wordIndex == words.length-1)
-                return wordsPosition;
-            
-            else 
-                return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
-//      
-        }else
-            return null;
-       
-    }
-    
-        
     public boolean listContainsPos(Lista list, int pos){
+        
         NodoLista current =  list.getHead();
         while (current != null){
             int posCurrent = (int)current.getData();
@@ -342,17 +370,23 @@ public class Controller implements Initializable  {
                 return true;
             }else
                 current = current.getNext();
-        }
+        }        
         return false;
+        
     }        
     
     
-   private void removeFile(){       
+    
+    
+    private void removeFile(){ 
+        
         listaFiles.delete(lastSelected.replace("  ",""));
         addLibraryElements();
-           
+          
+    }
     
-   }
+   
+    
     
     private void parseFile(){
         
@@ -382,8 +416,10 @@ public class Controller implements Initializable  {
     
     
     private void sortBy(){
+        
         String sortMethod = sortMethods.getValue().toString();
         System.out.println("Metodo " + sortMethod);
+        
     }
     
     
@@ -403,12 +439,16 @@ public class Controller implements Initializable  {
     
     public void inOrder(NodoArbol root) {
         if(root !=  null) {
+            
             inOrder(root.getIzq());
             //Visit the node by Printing the node data  
             System.out.println(root.getData().getWord()+" "+root.getData().getRepetition());
             inOrder(root.getDer());
+        
         }
     }
 
-
+    
+    
+    
 }
