@@ -5,7 +5,7 @@ package text.finder;
  * @author Keons
  */
 public class Lista {
-    private Nodo head;
+    private NodoLista head;
     private int size;
   
     public Lista(){
@@ -27,12 +27,12 @@ public class Lista {
      */
     public void insertFirst(Object data){
         if (head==null){
-            head = new Nodo(data);
+            head = new NodoLista(data);
             head.setNext(null);
         }
         else{
-          Nodo temp = head;
-          Nodo newNodo = new Nodo(data);
+          NodoLista temp = head;
+          NodoLista newNodo = new NodoLista(data);
           newNodo.setNext(temp);
           head = newNodo;
           
@@ -43,12 +43,12 @@ public class Lista {
     
     public void insertAtLast(Object data){
         if (head==null){
-            head = new Nodo(data);
+            head = new NodoLista(data);
             head.setNext(null);
         }
         else{
-            Nodo temp = head;
-            Nodo newNodo = new Nodo(data);
+            NodoLista temp = head;
+            NodoLista newNodo = new NodoLista(data);
             newNodo.setNext(null);
             while(temp.getNext() != null)
             {
@@ -57,15 +57,48 @@ public class Lista {
             temp.setNext(newNodo);
         }
     }
+    
+    public void insertAtLast(Object data, String name){
+        if (head==null){
+            head = new NodoLista(data);
+            head.setName(name);
+            head.setNext(null);
+        }
+        else{
+            NodoLista temp = head;
+            NodoLista newNodo = new NodoLista(data);
+            newNodo.setNext(null);
+            newNodo.setName(name);
+            while(temp.getNext() != null)
+            {
+                temp = temp.getNext(); 
+            }
+            temp.setNext(newNodo);
+        }
+    }
+    public void delete(Object data) {
+        NodoLista toDelete= buscar(data);
+        if (toDelete != null) {            
+            if(toDelete.getNext() != null){
+                NodoLista siguiente = toDelete.getNext().getNext();
+                toDelete.setNext(siguiente);  
+                System.out.println("borrado"); 
+            }else
+                head = null;
+            
+        }else
+            System.out.println("no borrado");
+    
+    }
    
     /**
      * Función que elimina el primer nodo de una lista
      * @return El nodo que se eliminó o null si la lista estaba vacía
      */
-    public Nodo deleteFirst(){
+    public NodoLista deleteFirst(){
 
         if (this.head != null) {
-            Nodo temp = this.head;
+            NodoLista temp = this.head;
             this.head = this.head.getNext();
             this.size--;
             return temp;
@@ -76,13 +109,32 @@ public class Lista {
         }
     }
     
+    /***
+     * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
+     * @param data
+     * @return
+     */
+    public NodoLista buscar(Object data){ 
+        NodoLista aux = head;
+        while(aux != null){
+            String sdata = (String)data;
+            if (data == aux.getData() || sdata == aux.getName()){ 
+            	return aux;
+            }
+            else{
+                aux = aux.getNext();
+            }
+        }
+        return null;
+    }
+    
     /**
      * Método para imprimir en consola una lista
      * @param list  Lista que se quiere imprimir
      */
     public void printList(Lista list) { 
         
-        Nodo current = list.head; 
+        NodoLista current = list.head; 
    
         System.out.print("Lista: "); 
         while (current != null) { 
@@ -91,8 +143,12 @@ public class Lista {
             current = current.getNext(); 
         } 
     }
+    
+    public void deleteList(){
+        this.head = null;
+    }
 
-    public Nodo getHead() {
+    public NodoLista getHead() {
         return head;
     }
     /**

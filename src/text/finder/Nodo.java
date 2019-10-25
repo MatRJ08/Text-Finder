@@ -6,11 +6,9 @@ package text.finder;
  */
 public class Nodo {
     
-    private Object data;
-    private Nodo next;
+    protected Object data;
 
     public Nodo(Object data){
-        this.next= null;
         this.data = data;
     }
 
@@ -24,13 +22,4 @@ public class Nodo {
 
     }
 
-    public Nodo getNext(){
-        return this.next;
-
-    }
-
-    public void setNext(Nodo nodo){
-        this.next = nodo;
-
-    } 
 }
