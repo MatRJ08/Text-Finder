@@ -77,18 +77,15 @@ public class Lista {
         }
     }
     public void delete(Object data) {
-        if (buscar(data)) {
-            if (head.getData() == data) {
-                head = head.getNext();
-            } else{
-                NodoLista aux = head;
-                while(aux.getNext().getData() != data){
-                    aux = aux.getNext();
-                }
-                NodoLista siguiente = aux.getNext().getNext();
-                aux.setNext(siguiente);  
-                System.out.println("borrado");
-            }
+        NodoLista toDelete= buscar(data);
+        if (toDelete != null) {            
+            if(toDelete.getNext() != null){
+                NodoLista siguiente = toDelete.getNext().getNext();
+                toDelete.setNext(siguiente);  
+                System.out.println("borrado"); 
+            }else
+                head = null;
+            
         }else
             System.out.println("no borrado");
     
@@ -117,18 +114,18 @@ public class Lista {
      * @param data
      * @return
      */
-    public boolean buscar(Object data){ 
+    public NodoLista buscar(Object data){ 
         NodoLista aux = head;
-        boolean found = false;
-        while(aux != null && found != true){
-            if (data == aux.getData()){ 
-            	found = true;
+        while(aux != null){
+            String sdata = (String)data;
+            if (data == aux.getData() || sdata == aux.getName()){ 
+            	return aux;
             }
             else{
                 aux = aux.getNext();
             }
         }
-        return found;
+        return null;
     }
     
     /**
