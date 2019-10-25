@@ -1,4 +1,6 @@
+
 package text.finder;
+
 
 /***
  * 
@@ -9,49 +11,43 @@ package text.finder;
 public class Sorting {
 	
 	/***
-	 * QuickSort para Ordenar por Nombre. Still On Work
+
+
+	 * QuickSort para Ordenar por Nombre.
+	 * @param arr
+	 * @param low
+	 * @param high
 	 */
-	public NodoLista quickSorter(Lista arr) {
-		if(arr.getHead()==null|| arr.getHead()==null) {
-			return arr.getHead();
-		}
-		return quicky(arr.getHead(),null);
-		}
-	
-	private NodoLista quicky(NodoLista start, NodoLista end) {
-		if(start ==null||start==end|| start.getNext()==end) {
-			return start;
-		}
+	public void quickSorter(int[] arr,int low, int high) {
+		int from=low;
+		int to=high;
+		int pivot=arr[(from+to)/2];
+		int temp;
 		
-		Lista[] resultados= partition(start,end);
-		NodoLista resultadosIzq=quicky(resultados[0].getHead(), resultados[1].getHead());
-		NodoLista resultadosDer=quicky(resultados[1].getHead().getNext(),end);
-                return null;//CORREGIR
-	}
-	
-	private Lista[] partition(NodoLista start, NodoLista end) {
-		if(start==null|| start==end || start.getNext()==end) {
-		}
-		NodoLista nodoDummy=new NodoLista(0);
-		nodoDummy.setNext(start);
-		for(NodoLista j = start; j != null && j.getNext() != null && j.getNext() != end; j = j.getNext()) {
-			int jint = (int)j.getNext().getData();
-                        int startNumber = (int) start.getData();
-                        while(j.getNext() != null && jint <= startNumber) {
-				NodoLista temp= j.getNext();
-				j.setNext(j.getNext().getNext());
-				temp.setNext(nodoDummy.getNext());
-				nodoDummy.setNext(temp);
-				}
+		do {
+			while(arr[from]<pivot) {
+				from++;
 			}
-                Lista rtrn1 = new Lista();
-                Lista rtrn2= new Lista();
-                rtrn1.insertAtLast(nodoDummy.getNext());
-                rtrn2.insertAtLast(start);
-                int[] hola = {1,2};
-                Lista[] lst= {rtrn1, rtrn2};
-		return  lst;
-	}
+			while(arr[to]>pivot) {
+				to--;
+			}
+			if(from<=to) {
+				temp=arr[from];
+				arr[from]=arr[to];
+				arr[to]=temp;
+				from++;
+				to++;
+			}
+		}while(from<=to);
+		
+		if(low<to) {
+			quickSorter(arr,low,to);
+			}
+		if(from<high) {
+			quickSorter(arr,from,high);
+			}
+		}
+
 	
 	/***
 	 * BubbleSort para ordenar por dia de Creacion
@@ -70,7 +66,7 @@ public class Sorting {
             }
         }
 	}
-	
+
 	 public void radixSort(int[] arr) {
 			if(arr.length== 0) 
 				return;
@@ -107,7 +103,7 @@ public class Sorting {
 				}
 			}
 		}
-	
+
 	/***
 	 * Obtener values del Array
 	 * @param arr
