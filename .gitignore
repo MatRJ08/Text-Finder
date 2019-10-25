@@ -1,8 +1,7 @@
 /JavaApplication4/nbproject/private/
 /build/
 /dist/
-*.docx
 
-src/library/hola.txt
-
-src/library/
+~$*.docx*
+~$*.doc*
+~$*.pdf*
