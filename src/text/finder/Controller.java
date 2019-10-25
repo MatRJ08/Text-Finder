@@ -5,6 +5,7 @@
  */
 package text.finder;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,6 +135,15 @@ public class Controller implements Initializable  {
             
             File selectedFile = fileChooser.showOpenDialog(TextFinder.getStage());
             String data = selectedFile.toString();
+            
+            Desktop desktop = Desktop.getDesktop();
+            try {
+            	desktop.open(selectedFile);
+            	} catch (IOException e) {
+            		// TODO Auto-generated catch block
+            		e.printStackTrace();
+            		}
+            
             System.out.println(data);
             String separator = "\\";
             String dataAux[] = data.replaceAll(Pattern.quote(separator), "\\\\").split("\\\\");
