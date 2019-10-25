@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package text.finder;
 
 import java.awt.Desktop;
@@ -27,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -43,8 +37,8 @@ import javafx.stage.FileChooser;
  */
 public class Controller implements Initializable  {
 
-    Lista listaFiles = new Lista();
-    Lista listaParsedFiles = new Lista();
+    private Lista listaFiles = new Lista();
+    private Lista listaParsedFiles = new Lista();
     private int filesNames = 0 ;
     private String lastSelected;
     @FXML
@@ -202,15 +196,42 @@ public class Controller implements Initializable  {
     
     
     private void searchWordInFile(){
+        principalPane.getChildren().clear();
         System.out.println("Buscando "+textToSearch.getText());
-        NodoLista current = listaParsedFiles.getHead();
+        NodoLista current = listaParsedFiles.getHead();        
+        Lista findedElements = new Lista();        
+        double x = 45;
+        boolean displayed = false;
+        
         while(current != null){
+            
             Arbol arbol = (Arbol)current.getData();
             Word finded = arbol.ifNodoExists(arbol.getRoot(), textToSearch.getText().toLowerCase());
+            
             if( finded != null){
-                System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
+                if(!displayed){
+                    Label subTitle = new Label("Palabra "+ textToSearch.getText()+ " encontarda en: ");
+                    subTitle.setMinSize(200, 30);
+                    subTitle.setLayoutX(x);
+                    subTitle.setLayoutY((principalPane.getPrefHeight()-subTitle.getPrefHeight())*0.50);
+                    principalPane.getChildren().add(subTitle); 
+                    displayed = true;
+                }
+                    
+                if(null == findedElements.buscar(current.getName())){
+                    
+                    findedElements.insertAtLast(finded.getFile());
+                    System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
+                    
+                    addFindedElements(textToSearch.getText(),findedElements, x);
+                    x+=190;   
+                    
+                }
+                
             }
+            
             current = current.getNext();
+            
         }
     }
     
@@ -240,12 +261,12 @@ public class Controller implements Initializable  {
                         }else if(next.getNext() == null){
 
                             System.out.println("Frase "+textToSearch.getText()+" encontrada en "+current.getName());
-                            if(!findedElements.buscar(current.getName())){
+                            if(null == findedElements.buscar(current.getName())){
                                 
                                 findedElements.insertAtLast(current.getName());
-                                addFindedElements(findedElements, x);
+                                addFindedElements(textToSearch.getText(),findedElements, x);
+                                x+=190;                            
                             }
-                            x+=190;                            
                             
                         }
                         next = next.getNext();
@@ -287,7 +308,8 @@ public class Controller implements Initializable  {
         
     
     
-    private void addFindedElements(Lista files,double x){
+    private void addFindedElements(String searched,Lista files,double x){
+        
         NodoLista current = files.getHead();
         while(current!= null){
             String textFile = (String) current.getData();
@@ -381,6 +403,7 @@ public class Controller implements Initializable  {
     private void removeFile(){ 
         
         listaFiles.delete(lastSelected.replace("  ",""));
+        listaParsedFiles.delete(lastSelected.replace("  ",""));
         addLibraryElements();
           
     }
