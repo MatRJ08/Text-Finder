@@ -42,7 +42,8 @@ import javax.swing.JOptionPane;
 public class Controller implements Initializable  {
 
     private Lista listaFiles = new Lista();
-    private Lista listaParsedFiles = new Lista();
+    private Lista listaParsedFiles = new Lista();      
+    private Lista findedElements = new Lista();    
     private int filesNames = 0 ;
     private String lastSelected;
     @FXML
@@ -253,7 +254,7 @@ public class Controller implements Initializable  {
         for(int i = 0; i < wordsToSearch.length; i++){
             System.out.println("Buscando "+wordsToSearch[i]);
             NodoLista current = listaParsedFiles.getHead();        
-            Lista findedElements = new Lista();        
+            findedElements = new Lista();        
             boolean displayed = false;
             
             while(current != null){
@@ -273,10 +274,10 @@ public class Controller implements Initializable  {
 
                     if(null == findedElements.buscar(current.getName())){
 
-                        findedElements.insertAtLast(finded.getFile());
+                        findedElements.insertAtLast(current);
                         System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
 
-                        addFindedElements(wordsToSearch[i],findedElements, x);
+                        addFindedElements(findedElements, x);
                         x+=190;   
 
                     }
@@ -300,10 +301,19 @@ public class Controller implements Initializable  {
         System.out.println("Buscando "+textToSearch.getText());
         NodoLista current = listaParsedFiles.getHead();
         double x = 45;
-        Lista findedElements = new Lista();
+        findedElements = new Lista();
+        boolean displayed = false;
         while (current != null){
-            Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "), 0, new Lista());
+            Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "),0, new Lista());
             if( finded != null){
+                if(!displayed){
+                    Label subTitle = new Label("Frase "+ textToSearch.getText()+ " encontarda en: ");
+                    subTitle.setMinSize(200, 30);
+                    subTitle.setLayoutX(x);
+                    subTitle.setLayoutY((principalPane.getPrefHeight()-subTitle.getPrefHeight())*0.50);
+                    principalPane.getChildren().add(subTitle); 
+                    displayed = true;
+                }
                 NodoLista findedPositions = finded.getHead();
                 Lista wordPositions = (Lista)findedPositions.getData();
                 NodoLista wordPosition = wordPositions.getHead();
@@ -321,7 +331,7 @@ public class Controller implements Initializable  {
                             if(null == findedElements.buscar(current.getName())){
                                 
                                 findedElements.insertAtLast(current.getName());
-                                addFindedElements(textToSearch.getText(),findedElements, x);
+                                addFindedElements(findedElements, x);
                                 x+=190;                            
                             }
                             
@@ -385,7 +395,7 @@ public class Controller implements Initializable  {
      * @param x 
      * Posicion en el eje x donde debe posicionarse el label que hace referencia al archivo
      */
-    private void addFindedElements(String searched, Lista files, double x){
+    private void addFindedElements(Lista files, double x){
         
         NodoLista current = files.getHead();
         while(current!= null){

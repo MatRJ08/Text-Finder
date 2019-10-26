@@ -8,6 +8,7 @@ public class NodoLista extends Nodo {
     
     private NodoLista next;
     private String name;
+    private int size;
 
     public NodoLista(Object data) {
         super(data);
@@ -28,7 +29,7 @@ public class NodoLista extends Nodo {
      * Metodo para definir el nombre del dato del nodo
      * @param name nombre del dato del nodo
      */
-    public void setName(String name) {
+    public void setExtraValues(String name) {
         this.name = name;
     }
     
