@@ -29,7 +29,7 @@ public class NodoLista extends Nodo {
      * Metodo para definir el nombre del dato del nodo
      * @param name nombre del dato del nodo
      */
-    public void setExtraValues(String name) {
+    public void setName(String name) {
         this.name = name;
     }
     

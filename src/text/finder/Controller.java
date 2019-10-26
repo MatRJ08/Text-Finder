@@ -161,16 +161,6 @@ public class Controller implements Initializable  {
      */  
     private void addFiles(String data, File selectedFile){
         
-            
-            
-//            Desktop desktop = Desktop.getDesktop();
-//            try {
-//            	desktop.open(selectedFile);
-//            }catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-            
             if(data.contains("\\")){
                 String separator = "\\";
                 String dataAux[] = data.replaceAll(Pattern.quote(separator), "\\\\").split("\\\\");
@@ -274,7 +264,7 @@ public class Controller implements Initializable  {
 
                     if(null == findedElements.buscar(current.getName())){
 
-                        findedElements.insertAtLast(current);
+                        findedElements.insertAtLast(current.getName());
                         System.out.println(finded.getWord() + "Encontrado en " + finded.getFile());
 
                         addFindedElements(findedElements, x);
@@ -413,10 +403,15 @@ public class Controller implements Initializable  {
 
             else if(textFile.contains("docx"))
                 label.setStyle("-fx-background-color: rgb(0, 81, 151); -fx-text-fill: white; ");            
-
+             
             Tooltip tooltip = new Tooltip(label.getText());
             label.setTooltip(tooltip);
             label.setTextAlignment(TextAlignment.CENTER);
+            label.setOnMouseClicked((MouseEvent event) -> {
+                File file = new File("src\\library\\"+textFile);
+                openFile(file);
+            }); 
+            
             principalPane.getChildren().add(label); 
             current = current.getNext();
         }
@@ -535,6 +530,16 @@ public class Controller implements Initializable  {
         listaParsedFiles.insertAtLast(arbol,lastSelected);
         inOrder(arbol.getRoot());
         
+    }
+    
+    private void openFile(File selectedFile){
+         Desktop desktop = Desktop.getDesktop();
+            try {
+            	desktop.open(selectedFile);
+            }catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
     }
     
     

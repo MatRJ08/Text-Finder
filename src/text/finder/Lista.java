@@ -49,14 +49,14 @@ public class Lista {
     public void insertAtLast(Object data, String name){
         if (head==null){
             head = new NodoLista(data);
-            head.setExtraValues(name);
+            head.setName(name);
             head.setNext(null);
         }
         else{
             NodoLista temp = head;
             NodoLista newNodo = new NodoLista(data);
             newNodo.setNext(null);
-            newNodo.setExtraValues(name);
+            newNodo.setName(name);
             while(temp.getNext() != null)
             {
                 temp = temp.getNext(); 
