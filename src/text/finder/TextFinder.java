@@ -18,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- *
+ *  Main
  * @author Keons
  */
 public class TextFinder extends Application {

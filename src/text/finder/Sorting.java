@@ -3,7 +3,7 @@ package text.finder;
 
 
 /***
- * 
+ * Clase que contiene los metodos que ordenan los archivos
  * @author jimejose
  *
  */

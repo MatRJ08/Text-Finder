@@ -1,7 +1,7 @@
 package text.finder;
 
 /**
- *
+ * Arbol binario de busqueda para almacenar archivos parseados
  * @author Keons
  */
 public class Arbol {
@@ -24,8 +24,11 @@ public class Arbol {
     /**
      * Función que llama a la funcion insertAux
      * @param data 
+     * dato que se desea insertar
      * @param index 
+     * indice de la palabra que se desea insertar
      * @param file 
+     * archivo en el cual se encuentra la palabra
      */
     public void insert(String data,int index, String file){
         root = insertAux(data, root, index, file);
@@ -85,11 +88,16 @@ public class Arbol {
     }
     
     /**
-     * @see https://www.geeksforgeeks.org/search-a-node-in-binary-tree/
+     * Funcion que revisa si el nodo ya fue creado
      * @param nodo
+     * Nodo sobre el cual se quiere revisar
      * @param word
-     * @return Un objeto tipo palabra si la palabra se encuentra
-     * @return null si la plabra no se encuentra
+     * Palabra que se desea insertar en el nodo
+     * 
+     * 
+     * @return Un objeto tipo palabra si la palabra se encuentra 
+     * null si la plabra no se encuentra
+     * @see <a href = "https://www.geeksforgeeks.org/search-a-node-in-binary-tree/"> se saca como buscar en un arbol binario de busqueda</a>
      */
     public Word ifNodoExists( NodoArbol nodo, String word){  
         if (nodo == null)  
@@ -98,10 +106,8 @@ public class Arbol {
         if (nodo.getData().getWord().toLowerCase().compareTo(word) == 0)  
             return nodo.getData();  
 
-        // then recur on left sutree / 
         Word res1 = ifNodoExists(nodo.getIzq(), word);  
 
-        // now recur on right subtree / 
         Word res2 = ifNodoExists(nodo.getDer(), word);  
 
         if(res1 != null)

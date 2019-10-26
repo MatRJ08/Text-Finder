@@ -34,10 +34,10 @@ import javax.swing.JOptionPane;
 
 
 /**
- *
+ * Controller de el FXML
  * @author Keons
- * @see https://stackoverflow.com/questions/54035976/javafx-with-fxml-adding-action-events-for-buttons
- * @version 11M15C
+ * @see <a href = "https://stackoverflow.com/questions/54035976/javafx-with-fxml-adding-action-events-for-buttons"></a>
+ * @version 10V26C
  */
 public class Controller implements Initializable  {
 
@@ -111,7 +111,7 @@ public class Controller implements Initializable  {
     
     /***
      * Metodo que busca el directorio que desea agregar el usuario a la libreria
-     * @see  https://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
+     * @see <a href = "https://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html"></a>
      */
     private void addDirectory(){
         DirectoryChooser dc = new DirectoryChooser();
@@ -154,9 +154,9 @@ public class Controller implements Initializable  {
      * Strign de donde se encuentra el archivo
      * @param selectedFile 
      * File de donde se encuentra el archivo
-     * @see https://docs.oracle.com/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#typeeffect
-     * @see http://lineadecodigo.com/java/como-ejecutar-un-comando-del-sistema-desde-java/
-     * @see https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html
+     * @see <a href = "https://docs.oracle.com/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#typeeffect"></a>
+     * @see <a href = "https://lineadecodigo.com/java/como-ejecutar-un-comando-del-sistema-desde-java/"></a>
+     * @see <a href = "https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html"></a>
      */  
     private void addFiles(String data, File selectedFile){
         
@@ -202,8 +202,8 @@ public class Controller implements Initializable  {
     /**
      * 
      * Metodo que copia los archivos seleccionados por el usuario a la carpeta library
-     * https://www.tutorialspoint.com/create-a-new-empty-file-in-java
-     * https://www.journaldev.com/861/java-copy-file
+     * @see <a href = "https://www.tutorialspoint.com/create-a-new-empty-file-in-java"></a>
+     * @see <a href = "https://www.journaldev.com/861/java-copy-file"></a>
      * @param source
      * archivo el cual se desea copiar
      * @param stringDest

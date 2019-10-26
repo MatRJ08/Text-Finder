@@ -17,6 +17,10 @@ import java.util.logging.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
+/**
+ * Clase que contiene los metodos que parsean archivos
+ * @author jimejose
+ */
 public class Parser {
     
 //    rootLogger.addAppender(new NullAppender());
@@ -24,13 +28,13 @@ public class Parser {
 	
     /**
      * 
-     * @author jimejose
+     * 
      * Este metodo permite parsear las palabras de un .pdf
      * @param lastSelected 
      * parametro para saber cual es el nombre del archivo
-     * @see https://www.youtube.com/watch?v=rLsKLk-hPH8&feature=youtu.be
-     * @see https://www.programcreek.com/java-api-examples/?api=org.apache.pdfbox.pdfparser.PDFParser
-     * @see Link libreria: https://www.youtube.com/redirect?q=https%3A%2F%2Fdrive.google.com%2Fopen%3Fid%3D1-yT2IctsPGPArevocthYqp7cm16Oozp8&redir_token=jycP91bxGoL4IjzDeebACQQXvQx8MTU3MTg5NzM2NkAxNTcxODEwOTY2&event=video_description&v=rLsKLk-hPH8
+     * @see <a href= "https://www.youtube.com/watch?v=rLsKLk-hPH8&feature=youtu.be"></a>
+     * @see <a href= "https://www.programcreek.com/java-api-examples/?api=org.apache.pdfbox.pdfparser.PDFParser"></a>
+     * @see <a href= "https://www.youtube.com/redirect?q=https%3A%2F%2Fdrive.google.com%2Fopen%3Fid%3D1-yT2IctsPGPArevocthYqp7cm16Oozp8&redir_token=jycP91bxGoL4IjzDeebACQQXvQx8MTU3MTg5NzM2NkAxNTcxODEwOTY2&event=video_description&v=rLsKLk-hPH8">Link libreria</a>
      * @return el arbol con el documento parseado
      * 
      */
@@ -68,13 +72,17 @@ public class Parser {
     
     
     
-    
-    public Arbol docxParser(String lastSelected){
+    /**
+     * Funcion para parsear documentos .docx
+     * @param fileName nombre del documento a parsear
+     * @return arbol con el documento parseado
+     */
+    public Arbol docxParser(String fileName){
     
         Arbol arbol = new Arbol();
         try {
             
-            File file = new File("src\\library\\"+lastSelected);
+            File file = new File("src\\library\\"+fileName);
             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
             XWPFDocument document = new XWPFDocument(fis);
             List<XWPFParagraph> paragraphs = document.getParagraphs();
@@ -83,7 +91,7 @@ public class Parser {
 
                 String sPara = para.getText().toString();
                 String[] fields = sPara.split(FieldDelimiter, -1);
-                insertLineInTree(fields,arbol, lastSelected);
+                insertLineInTree(fields,arbol, fileName);
                 
             }
             
@@ -98,18 +106,22 @@ public class Parser {
     }
     
     
-    
-    public Arbol txtParser(String lastSelected){
+    /**
+     * Funcion para parsear documentos .txt
+     * @param fileName nombre del documento a parsear
+     * @return arbol con el documento parseado
+     */
+    public Arbol txtParser(String fileName){
         BufferedReader br;
         Arbol arbol = new Arbol();
             try {
 
-                br = new BufferedReader(new FileReader("src\\library\\"+lastSelected));
+                br = new BufferedReader(new FileReader("src\\library\\"+fileName));
                 String line;     
                 
                 while ((line = br.readLine()) != null) {
                     String[] fields = line.split(FieldDelimiter, -1);
-                    insertLineInTree(fields,arbol, lastSelected);
+                    insertLineInTree(fields,arbol, fileName);
                 }
                 return arbol;
             } catch (FileNotFoundException ex) {
@@ -126,12 +138,17 @@ public class Parser {
     
     
     
-    
-    private void insertLineInTree(String[] fields,Arbol arbol,String lastSelected){        
-            for(int i = 0; i < fields.length; i++){
-                if(!fields[i].equals(" ")){
-                    arbol.insert(fields[i],i, lastSelected);
-                    System.out.println(fields[i]+" Added");
+    /**
+     * metodo para insertar una linea de texto en un arbol
+     * @param words array con palabras en cada una de sus posiciones
+     * @param arbol arbol binario de busqueda donde se insertaran las palabras
+     * @param fileName nombre del archivo donde estan las palabras
+     */
+    private void insertLineInTree(String[] words,Arbol arbol,String fileName){        
+            for(int i = 0; i < words.length; i++){
+                if(!words[i].equals(" ")){
+                    arbol.insert(words[i],i, fileName);
+                    System.out.println(words[i]+" Added");
                 }
             }
     }

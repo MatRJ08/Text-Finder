@@ -1,7 +1,7 @@
 package text.finder;
 
 /**
- *
+ * Lista enlazada simple
  * @author Keons
  */
 public class Lista {
@@ -88,8 +88,9 @@ public class Lista {
     
     /***
      * Funcion que busca si el dato se encuentra en la lista
-     * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
+     * @see <a href= "http://codigolibre.weebly.com/blog/listas-simples-en-java"></a>
      * @param data
+     * Dato a buscar en la lista
      * @return el nodo donde se encuentra el dato
      * @return null si el dato no se encuentra en la lista
      */
