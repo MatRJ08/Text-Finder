@@ -110,7 +110,7 @@ public class Controller implements Initializable  {
    
     
     /***
-     * 
+     * Metodo que busca el directorio que desea agregar el usuario a la libreria
      * @see  https://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
      */
     private void addDirectory(){
@@ -129,6 +129,10 @@ public class Controller implements Initializable  {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una carpeta para poder continuar", "Seleccion cancelada", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    
+    /**
+     * Metodo que busca el directorio que desea agregar el usuario a la libreria
+     */
     private void addFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -146,7 +150,10 @@ public class Controller implements Initializable  {
     }
     
     /**
-     * 
+     * @param data 
+     * Strign de donde se encuentra el archivo
+     * @param selectedFile 
+     * File de donde se encuentra el archivo
      * @see https://docs.oracle.com/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#typeeffect
      * @see http://lineadecodigo.com/java/como-ejecutar-un-comando-del-sistema-desde-java/
      * @see https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html
@@ -194,10 +201,13 @@ public class Controller implements Initializable  {
     
     /**
      * 
+     * Metodo que copia los archivos seleccionados por el usuario a la carpeta library
      * https://www.tutorialspoint.com/create-a-new-empty-file-in-java
      * https://www.journaldev.com/861/java-copy-file
      * @param source
+     * archivo el cual se desea copiar
      * @param stringDest
+     * Path donde se quiere agregar el nuevo archivo
      * @throws IOException 
      */  
     private static void copyFile(File source, String stringDest) throws IOException {
@@ -230,7 +240,12 @@ public class Controller implements Initializable  {
     
     
     
-    
+    /**
+     * Metodo para buscar palabras en un archivo, si encuentra las palabras llama a addFindedElements
+     * para hacer display de los archivos donde se encuentra la palabra
+     * Si encuentra que se esta buscando sobre una frase divide la frase en palabras y hace una busqueda 
+     * individual de cada palabra
+     */
     private void searchWordInFile(){
         principalPane.getChildren().clear();
         String[] wordsToSearch = textToSearch.getText().split(" ");
@@ -276,7 +291,10 @@ public class Controller implements Initializable  {
     
     
     
-    
+    /**
+     * Metodo para buscar frases en un archivo, si encuentra las palabras de la frase, si las palabras estan una al lado 
+     * de la otra llama a addFindedElements para hacer display de los archivos donde se encuentra la frase
+     */
     private void searchPhraseInFile(){
         principalPane.getChildren().clear();
         System.out.println("Buscando "+textToSearch.getText());
@@ -284,7 +302,7 @@ public class Controller implements Initializable  {
         double x = 45;
         Lista findedElements = new Lista();
         while (current != null){
-            Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "), 0, 0, new Lista());
+            Lista finded =(Lista) searchPhraseInFileAux(current, textToSearch.getText().split(" "), 0, new Lista());
             if( finded != null){
                 NodoLista findedPositions = finded.getHead();
                 Lista wordPositions = (Lista)findedPositions.getData();
@@ -323,8 +341,20 @@ public class Controller implements Initializable  {
     
     
     
-    
-    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, int nextIndex, Lista wordsPosition){
+    /**
+     * Funcion que busca que todas las palabras de la frase se encuentre en el archivo
+     * @param current
+     * Nodo donde se almacena el archivo parseado sobre el que se desea buscar
+     * @param words
+     * Array de las palabras de la frase
+     * @param wordIndex
+     * Indice actual de words
+     * @param wordsPosition
+     * Lista en la cual se va almacenar todos los indices donde se encuentra cada palabra buscada
+     * @return una lista con los indices donde se encuentra cada palabra buscada
+     * @return null si por lo menos una palabra no se encuentra en el archivo
+     */
+    private Object searchPhraseInFileAux(NodoLista current, String[] words, int wordIndex, Lista wordsPosition){
         
         Arbol arbol = (Arbol)current.getData();
         Word finded = arbol.ifNodoExists(arbol.getRoot(), words[wordIndex].toLowerCase());
@@ -337,7 +367,7 @@ public class Controller implements Initializable  {
                 return wordsPosition;
             
             else 
-                return searchPhraseInFileAux(current, words, wordIndex+1, nextIndex, wordsPosition);
+                return searchPhraseInFileAux(current, words, wordIndex+1, wordsPosition);
 //      
         }else
             return null;
@@ -346,8 +376,16 @@ public class Controller implements Initializable  {
     
         
     
-    
-    private void addFindedElements(String searched,Lista files,double x){
+    /**
+     * Muestra en la grafica los archivos donde hubo coincidencia con la busqueda
+     * @param searched
+     * La palabra que se busco
+     * @param files
+     * lista de archivos donde hubo coincidencia con la busqueda
+     * @param x 
+     * Posicion en el eje x donde debe posicionarse el label que hace referencia al archivo
+     */
+    private void addFindedElements(String searched, Lista files, double x){
         
         NodoLista current = files.getHead();
         while(current!= null){
@@ -378,7 +416,10 @@ public class Controller implements Initializable  {
       
     
     
-    
+    /**
+     * Funcion para mostrar los archivos que se encuentran en la libreria, hace display de un label
+     * por cada uno de los archivos agregados a la libreria
+     */
     private void addLibraryElements(){
         
         NodoLista current = listaFiles.getHead();          
@@ -421,7 +462,15 @@ public class Controller implements Initializable  {
     
     
     
-    
+    /**
+     * 
+     * @param list
+     * lista sobre la cual se va buscar
+     * @param pos
+     * posicion que se esta buscando
+     * @return true si la posicion se encuentra en la lista
+     * @return false si la posicion no se encuentra en la lista
+     */
     public boolean listContainsPos(Lista list, int pos){
         
         NodoLista current =  list.getHead();
@@ -438,7 +487,9 @@ public class Controller implements Initializable  {
     
     
     
-    
+    /**
+     * metodo que elimina el ultimo archivo de la libreria clickeado
+     */
     private void removeFile(){ 
         
         listaFiles.delete(lastSelected.replace("  ",""));
@@ -449,7 +500,10 @@ public class Controller implements Initializable  {
     
    
     
-    
+    /**
+     * metodo que llama a las funciones que parsean los archivos
+     * y inserta el arbol en una lista de archivos parseados
+     */
     private void parseFile(){
         
         lastSelected = lastSelected.replace("  ", "");
@@ -476,29 +530,24 @@ public class Controller implements Initializable  {
     
     
     
-    
+    /**
+     * metodo que llama a los metodos que ordenaran los archivos
+     */
     private void sortBy(){
         
         String sortMethod = sortMethods.getValue().toString();
         System.out.println("Metodo " + sortMethod);
         
-    }
+    } 
     
     
     
     
-    
-    public void insertLineInTree(String[] fields,Arbol arbol){        
-            for(int i = 0; i < fields.length; i++){
-                arbol.insert(fields[i],i, lastSelected);
-                System.out.println(fields[i]+" Added");
-            }
-    }
-    
-    
-    
-    
-    
+    /**
+     * metodo que ejecuta un recorrido inOrder en un arbol
+     * @param root 
+     * nodo raiz de un arbol
+     */
     public void inOrder(NodoArbol root) {
         if(root !=  null) {
             

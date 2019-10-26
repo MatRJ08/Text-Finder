@@ -1,7 +1,7 @@
 package text.finder;
 
 /**
- *
+ * Clase concreta del nodo para usarlo en arboles binarios de busqueda
  * @author Keons
  */
 public class NodoArbol extends Nodo{

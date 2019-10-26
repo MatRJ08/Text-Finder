@@ -20,27 +20,10 @@ public class Lista {
         return this.head == null;
     }
     
-    
     /**
-     * Función qe crea un nodo a partir de los datos que se ingresen y lo pone al inicio de la lista
-     * @param data 
+     * Metodo que inserta un nodo al final de la lista
+     * @param data dato que se desea agregar a la lista
      */
-    public void insertFirst(Object data){
-        if (head==null){
-            head = new NodoLista(data);
-            head.setNext(null);
-        }
-        else{
-          NodoLista temp = head;
-          NodoLista newNodo = new NodoLista(data);
-          newNodo.setNext(temp);
-          head = newNodo;
-          
-        }
-        this.size++;
-
-    }
-    
     public void insertAtLast(Object data){
         if (head==null){
             head = new NodoLista(data);
@@ -58,6 +41,11 @@ public class Lista {
         }
     }
     
+    /**
+     * Metodo que inserta un nodo al final de la lista
+     * @param data dato que se desea agregar a la lista
+     * @param name nombre que se le desea dar al dato guardado
+     */
     public void insertAtLast(Object data, String name){
         if (head==null){
             head = new NodoLista(data);
@@ -76,6 +64,12 @@ public class Lista {
             temp.setNext(newNodo);
         }
     }
+    
+    
+    /**
+     * Metodo que elimina un nodo de la lista
+     * @param data dato que se desea eliminar, bien puede ser el data del nodo o el name
+     */
     public void delete(Object data) {
         NodoLista toDelete= buscar(data);
         if (toDelete != null) {            
@@ -91,28 +85,13 @@ public class Lista {
     
     }
    
-    /**
-     * Función que elimina el primer nodo de una lista
-     * @return El nodo que se eliminó o null si la lista estaba vacía
-     */
-    public NodoLista deleteFirst(){
-
-        if (this.head != null) {
-            NodoLista temp = this.head;
-            this.head = this.head.getNext();
-            this.size--;
-            return temp;
-
-        }else{
-             return null;
-
-        }
-    }
     
     /***
+     * Funcion que busca si el dato se encuentra en la lista
      * @see http://codigolibre.weebly.com/blog/listas-simples-en-java
      * @param data
-     * @return
+     * @return el nodo donde se encuentra el dato
+     * @return null si el dato no se encuentra en la lista
      */
     public NodoLista buscar(Object data){ 
         NodoLista aux = head;
@@ -126,31 +105,16 @@ public class Lista {
             }
         }
         return null;
-    }
+    }   
     
     /**
-     * Método para imprimir en consola una lista
-     * @param list  Lista que se quiere imprimir
+     * Funcion para saber cueal es el head de la lista
+     * @return el head de la lista
      */
-    public void printList(Lista list) { 
-        
-        NodoLista current = list.head; 
-   
-        System.out.print("Lista: "); 
-        while (current != null) { 
-            System.out.print(current.getData() + " "); 
-   
-            current = current.getNext(); 
-        } 
-    }
-    
-    public void deleteList(){
-        this.head = null;
-    }
-
     public NodoLista getHead() {
         return head;
     }
+    
     /**
      * Función para saber el tamaño de la lista
      * @return El tamaño de la lista
