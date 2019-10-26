@@ -1,14 +1,13 @@
 package text.finder;
 
 /**
- *
+ * Clase concreta del nodo para usarlo en arboles binarios de busqueda
  * @author Keons
  */
 public class NodoArbol extends Nodo{
     
     private NodoArbol der;
     private NodoArbol izq;
-    private int indice;
 
     
     public NodoArbol(Word data) {
@@ -24,8 +23,8 @@ public class NodoArbol extends Nodo{
     }
     
     /**
-     *
-     * @return
+     * Funcion para saber el hijo derecho del nodo
+     * @return hijo derecho del nodo
      */
     public NodoArbol getDer(){
         return this.der;
@@ -33,8 +32,8 @@ public class NodoArbol extends Nodo{
     }  
 
     /**
-     *
-     * @param nodo
+     * metodo para definir el hijo derecho del nodo
+     * @param nodo nodo a insertar en hijo derecho
      */
     public void setDer(NodoArbol nodo){
         this.der = nodo;
@@ -42,36 +41,22 @@ public class NodoArbol extends Nodo{
     } 
     
     /**
-     *
-     * @return
+     * Funcion para saber el hijo izquierdo del nodo
+     * @return hijo izquierdo del nodo
      */
     public NodoArbol getIzq() {
         return izq;
     }
 
     /**
-     *
-     * @param izq
+     * metodo para definir el hijo izquierdo del nodo
+     * @param izq nodo a insertar en hijo izquierdo
      */
     public void setIzq(NodoArbol izq) {
         this.izq = izq;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getIndice() {
-        return indice;
-    }
-
-    /**
-     *
-     * @param indice
-     */
-    public void setIndice(int indice) {
-        this.indice = indice;
-    }
+    
 
     
 }

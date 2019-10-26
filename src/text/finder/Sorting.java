@@ -3,7 +3,7 @@ package text.finder;
 
 
 /***
- * 
+ * Clase que contiene los metodos que ordenan los archivos
  * @author jimejose
  *
  */
@@ -18,35 +18,35 @@ public class Sorting {
 	 * @param low
 	 * @param high
 	 */
-	public void quickSorter(int[] arr,int low, int high) {
-		int from=low;
-		int to=high;
-		int pivot=arr[(from+to)/2];
-		int temp;
-		
-		do {
-			while(arr[from]<pivot) {
-				from++;
-			}
-			while(arr[to]>pivot) {
-				to--;
-			}
-			if(from<=to) {
-				temp=arr[from];
-				arr[from]=arr[to];
-				arr[to]=temp;
-				from++;
-				to++;
-			}
-		}while(from<=to);
-		
-		if(low<to) {
-			quickSorter(arr,low,to);
-			}
-		if(from<high) {
-			quickSorter(arr,from,high);
-			}
-		}
+//	public void quickSorter(Lista arr,int low, int high) {
+//		int from=low;
+//		int to=high;
+//		int pivot=arr[(from+to)/2];
+//		int temp;
+//		
+//		do {
+//			while(arr[from]<pivot) {
+//				from++;
+//			}
+//			while(arr[to]>pivot) {
+//				to--;
+//			}
+//			if(from<=to) {
+//				temp=arr[from];
+//				arr[from]=arr[to];
+//				arr[to]=temp;
+//				from++;
+//				to++;
+//			}
+//		}while(from<=to);
+//		
+//		if(low<to) {
+//			quickSorter(arr,low,to);
+//			}
+//		if(from<high) {
+//			quickSorter(arr,from,high);
+//			}
+//		}
 
 	
 	/***

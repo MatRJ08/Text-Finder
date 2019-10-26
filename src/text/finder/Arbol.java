@@ -1,7 +1,7 @@
 package text.finder;
 
 /**
- *
+ * Arbol binario de busqueda para almacenar archivos parseados
  * @author Keons
  */
 public class Arbol {
@@ -24,38 +24,56 @@ public class Arbol {
     /**
      * Función que llama a la funcion insertAux
      * @param data 
+     * dato que se desea insertar
+     * @param index 
+     * indice de la palabra que se desea insertar
+     * @param file 
+     * archivo en el cual se encuentra la palabra
      */
     public void insert(String data,int index, String file){
         root = insertAux(data, root, index, file);
     }
     
     
+    
     /**
+     * /**
      * Función qe crea un nodo a partir de los datos que se ingresen y lo inserta en el arbol
      * @param data 
+     * dato que se desea insertar
+     * @param current
+     * nodo sobre el cual se desea insertar el data
+     * @param index
+     * indice de la palabra que se desea insertar
+     * @param file
+     * archivo en el cual se encuentra la palabra
+     * @return el nodo con dato ya agregado
      */
-    private NodoArbol insertAux(String data, NodoArbol nodo, int index, String file){
-        if (nodo == null){            
-            nodo = new NodoArbol(new Word(data, index, file));
+    private NodoArbol insertAux(String data, NodoArbol current, int index, String file){
+        if (current == null){            
+            current = new NodoArbol(new Word(data, index, file));
             
         } else{      
-          Word word = nodo.getData();
+          Word word = current.getData();
           String sData = word.getWord().toLowerCase() ;
           
           if( sData.compareTo(data.toLowerCase()) > 0) {              
-              nodo.setIzq(insertAux(data, nodo.getIzq(), index, file));
+              current.setIzq(insertAux(data, current.getIzq(), index, file));
               
           }else if( sData.compareTo(data.toLowerCase()) < 0){              
-              nodo.setDer(insertAux(data, nodo.getDer(), index, file));
+              current.setDer(insertAux(data, current.getDer(), index, file));
                      
           }else if( sData.compareTo(data.toLowerCase()) == 0){              
-              nodo.getData().addRepetition(index);              
+              current.getData().addRepetition(index);              
           }          
         }
-        return nodo;
+        return current;
     }
 
-    
+    /**
+     * Funcion para saber la raiz del arbol
+     * @return la raiz del arbol
+     */
     public NodoArbol getRoot() {
         return root;
     }
@@ -70,11 +88,16 @@ public class Arbol {
     }
     
     /**
-     * @see https://www.geeksforgeeks.org/search-a-node-in-binary-tree/
+     * Funcion que revisa si el nodo ya fue creado
      * @param nodo
+     * Nodo sobre el cual se quiere revisar
      * @param word
-     * @return Un objeto tipo palabra si la palabra se encuentra
-     * @return null si la plabra no se encuentra
+     * Palabra que se desea insertar en el nodo
+     * 
+     * 
+     * @return Un objeto tipo palabra si la palabra se encuentra 
+     * null si la plabra no se encuentra
+     * @see <a href = "https://www.geeksforgeeks.org/search-a-node-in-binary-tree/"> se saca como buscar en un arbol binario de busqueda</a>
      */
     public Word ifNodoExists( NodoArbol nodo, String word){  
         if (nodo == null)  
@@ -83,10 +106,8 @@ public class Arbol {
         if (nodo.getData().getWord().toLowerCase().compareTo(word) == 0)  
             return nodo.getData();  
 
-        // then recur on left sutree / 
         Word res1 = ifNodoExists(nodo.getIzq(), word);  
 
-        // now recur on right subtree / 
         Word res2 = ifNodoExists(nodo.getDer(), word);  
 
         if(res1 != null)
