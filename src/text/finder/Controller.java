@@ -495,8 +495,13 @@ public class Controller implements Initializable  {
     /**
      * metodo que elimina el ultimo archivo de la libreria clickeado
      */
-    private void removeFile(){ 
-        
+    private void removeFile(){
+        System.out.println("src\\library\\"+lastSelected.replace("  ",""));
+        File fichero = new File("src\\library\\"+lastSelected.replace("  ",""));
+        if (fichero.delete())
+            System.out.println("El fichero ha sido borrado satisfactoriamente");
+//        else
+//            System.out.println("El fichero no pudó ser borrado");
         listaFiles.delete(lastSelected.replace("  ",""));
         listaParsedFiles.delete(lastSelected.replace("  ",""));
         addLibraryElements();
