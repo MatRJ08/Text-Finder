@@ -21,10 +21,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import static javafx.scene.input.MouseButton.PRIMARY;
+import static javafx.scene.input.MouseButton.SECONDARY;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javax.swing.JOptionPane;
 
 
 
@@ -52,7 +56,7 @@ public class Controller implements Initializable  {
     @FXML
     ChoiceBox sortMethods;
     @FXML
-    Button addFile;
+    private Button addFile;
     @FXML
     Button parse;
     @FXML
@@ -70,8 +74,11 @@ public class Controller implements Initializable  {
          *  
          * @param event
          */
-        addFile.setOnAction((ActionEvent event) -> {
-            addFile();
+        addFile.setOnMouseClicked((MouseEvent event) -> {
+            if(event.getButton() == SECONDARY)
+                addDirectory();
+            else if(event.getButton() == PRIMARY)
+                addFile();
         });
         
         parse.setOnAction((ActionEvent event) -> {
@@ -102,39 +109,68 @@ public class Controller implements Initializable  {
     }
    
     
+    /***
+     * 
+     * @see  https://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
+     */
+    private void addDirectory(){
+        DirectoryChooser dc = new DirectoryChooser();
+        File path =  dc.showDialog(TextFinder.getStage());
+        if(path != null){
+            String[] selectedFile = path.list();
+            for (String selectedFile1 : selectedFile) {
+                if (selectedFile1.contains("docx") || selectedFile1.contains("pdf") || selectedFile1.contains("txt")) {
+                    File file = new File(path+"\\" + selectedFile1);
+                    System.out.println(selectedFile1);
+                    addFiles(path+"\\" + selectedFile1, file);
+                }
+            }
+        }else
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una carpeta para poder continuar", "Seleccion cancelada", JOptionPane.INFORMATION_MESSAGE);
+    }
     
+    private void addFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("TXT", "*.txt"),
+                new ExtensionFilter("PDF", "*.pdf"),
+                new ExtensionFilter("DOCX", "*.docx")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(TextFinder.getStage());
+        if(selectedFile != null)
+            addFiles(selectedFile.toString(), selectedFile);
+        else
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un archivo para poder continuar", "Seleccion cancelada", JOptionPane.INFORMATION_MESSAGE);
+    
+    }
     
     /**
      * 
      * @see https://docs.oracle.com/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#typeeffect
      * @see http://lineadecodigo.com/java/como-ejecutar-un-comando-del-sistema-desde-java/
+     * @see https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html
      */  
-    private void addFile(){
+    private void addFiles(String data, File selectedFile){
         
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().addAll(
-                    new ExtensionFilter("TXT", "*.txt"),
-                    new ExtensionFilter("PDF", "*.pdf"),
-                    new ExtensionFilter("DOCX", "*.docx")
-            );
             
-            File selectedFile = fileChooser.showOpenDialog(TextFinder.getStage());
-            String data = selectedFile.toString();
             
-            Desktop desktop = Desktop.getDesktop();
-            try {
-            	desktop.open(selectedFile);
-            }catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+//            Desktop desktop = Desktop.getDesktop();
+//            try {
+//            	desktop.open(selectedFile);
+//            }catch (IOException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            
+            if(data.contains("\\")){
+                String separator = "\\";
+                String dataAux[] = data.replaceAll(Pattern.quote(separator), "\\\\").split("\\\\");
+                System.out.println(Arrays.toString(dataAux));                        
+                data = dataAux[dataAux.length -1];
             }
-            
             System.out.println(data);
-            String separator = "\\";
-            String dataAux[] = data.replaceAll(Pattern.quote(separator), "\\\\").split("\\\\");
-            System.out.println(Arrays.toString(dataAux));
-                        
-            data = dataAux[dataAux.length -1];
+            
             listaFiles.insertAtLast(data);
             
             try {

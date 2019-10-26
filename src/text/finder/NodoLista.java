@@ -11,7 +11,7 @@ public class NodoLista extends Nodo {
 
     public NodoLista(Object data) {
         super(data);
-        this.next = null;
+        this.next = null; 
     }
 
 

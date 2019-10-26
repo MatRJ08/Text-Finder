@@ -18,8 +18,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 public class Parser {
-
     
+//    rootLogger.addAppender(new NullAppender());
     String FieldDelimiter = " ";
 	
     /**

@@ -8,7 +8,6 @@ public class NodoArbol extends Nodo{
     
     private NodoArbol der;
     private NodoArbol izq;
-    private int indice;
 
     
     public NodoArbol(Word data) {
@@ -57,21 +56,7 @@ public class NodoArbol extends Nodo{
         this.izq = izq;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getIndice() {
-        return indice;
-    }
-
-    /**
-     *
-     * @param indice
-     */
-    public void setIndice(int indice) {
-        this.indice = indice;
-    }
+    
 
     
 }
